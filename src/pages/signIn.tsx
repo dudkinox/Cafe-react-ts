@@ -17,6 +17,7 @@ import { useState } from "react";
 import AccountModel from "../models/AccountModel";
 import AccountService from "../services/AccountService";
 import Alerts from "../components/alert";
+import Loading from "../components/loading";
 
 const theme = createTheme();
 
@@ -26,6 +27,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState<AccountModel>();
   const [isAlert, setIsAlert] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const goToSignUp = () => {
     navigate("/signup");
@@ -33,15 +35,17 @@ export default function SignIn() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setIsLoading(true);
     AccountService.getLogin(email, password).then((res) => {
       setIsLogin(res);
       setIsAlert(true);
+      setIsLoading(false);
     });
   };
 
   return (
     <>
+      {isLoading && <Loading />}
       <Alerts
         message={isLogin?.verify ? "รหัสผ่านถูกต้อง" : "รหัสผ่านไม่ถูกต้อง"}
         show={isAlert}
