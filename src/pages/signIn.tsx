@@ -35,19 +35,23 @@ export default function SignIn() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsLoading(true);
-    AccountService.getLogin(email, password).then((res) => {
-      setIsLogin(res);
-      setIsAlert(true);
-      setIsLoading(false);
-    });
+    if (email !== "") {
+      if (password !== "") {
+        setIsLoading(true);
+        AccountService.getLogin(email, password).then((res) => {
+          setIsLogin(res);
+          setIsAlert(true);
+          setIsLoading(false);
+        });
+      }
+    }
   };
 
   return (
     <>
       {isLoading && <Loading />}
       <Alerts
-        message={isLogin?.verify ? "รหัสผ่านถูกต้อง" : "รหัสผ่านไม่ถูกต้อง"}
+        message={isLogin?.verify ? "เข้าสู่ระบบ" : "รหัสผ่านไม่ถูกต้อง"}
         show={isAlert}
         severity={isLogin?.verify ? "success" : "error"}
         setIsAlert={setIsAlert}
@@ -80,6 +84,7 @@ export default function SignIn() {
                 margin="normal"
                 required
                 fullWidth
+                error={email === "" ? true : false}
                 onChange={(event) => setEmail(event.target.value)}
                 id="email"
                 label="Email Address"
@@ -91,6 +96,7 @@ export default function SignIn() {
                 margin="normal"
                 required
                 fullWidth
+                error={password === "" ? true : false}
                 onChange={(event) => setPassword(event.target.value)}
                 name="password"
                 label="Password"
