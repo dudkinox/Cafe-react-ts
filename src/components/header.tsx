@@ -7,7 +7,6 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
@@ -59,7 +58,7 @@ export default function Header() {
                   />
                 </Typography>
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs={2}>
                 <Button sx={{ color: "#000", fontSize: "20px" }}>
                   <HomeIcon sx={{ fontSize: 45 }} />
                   หน้าแรก
