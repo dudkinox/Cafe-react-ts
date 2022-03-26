@@ -42,6 +42,11 @@ export default function SignIn() {
           setIsLogin(res);
           setIsAlert(true);
           setIsLoading(false);
+          setTimeout(() => {
+            if (res.verify) {
+              navigate("/");
+            }
+          }, 1000);
         });
       }
     }
