@@ -1,9 +1,12 @@
 import {
   AppBar,
+  Autocomplete,
   Box,
   Button,
+  Container,
   Grid,
   IconButton,
+  TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -11,58 +14,107 @@ import "./App.css";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
+import Header from "./components/header";
 
 function App() {
+  const styles = {
+    paperContainer: {
+      height: 650,
+      width: "100%",
+      backgroundSize: "auto",
+      backgroundImage: `url(${"https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"})`,
+    },
+  };
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" style={{ backgroundColor: "#eb1c24" }}>
+      <Header />
+      <Box style={styles.paperContainer}>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          style={{ minHeight: "50vh" }}
+        >
+          <Grid item>
+            <Typography sx={{ color: "#fff", fontSize: "100px" }}>
+              ร้านอร่อยอยู่ที่ไหน ?
+            </Typography>
+            <Typography sx={{ color: "#fff", fontSize: "25px" }}>
+              หาได้ที่นี่เรามีคำตอบ
+            </Typography>
+            <Autocomplete
+              freeSolo
+              id="free-solo-2-demo"
+              style={{ backgroundColor: "white" }}
+              disableClearable
+              options={[]}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="ค้นหาร้านคาเฟ่"
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
+        <Box
+          sx={{
+            backgroundColor: "#eb1c24",
+            height: 150,
+            width: "60%",
+            alignItems: "center",
+            justifyContent: "center",
+            direction: "column",
+          }}
+        ></Box>
+        {/* <AppBar position="static" sx={{ backgroundColor: "white" }}>
           <Toolbar>
-            <Grid container spacing={2}>
-              <Grid item xs={11}>
-                <Typography variant="h6" component="span">
-                  ค้นหาร้านอาหารที่ชอบ เน้นรีวิวจริง อร่อยจริง
+            <Grid
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+            >
+              {" "}
+              <Grid item xs={2}>
+                <IconButton size="large" edge="start" aria-label="menu" />
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                  <img
+                    src="assets/image/logo.png"
+                    width="120"
+                    height="100"
+                    alt=""
+                  />
                 </Typography>
               </Grid>
               <Grid item xs={1}>
-                <PersonIcon />
+                <Button sx={{ color: "#000", fontSize: "20px" }}>
+                  <HomeIcon sx={{ fontSize: 45 }} />
+                  หน้าแรก
+                </Button>
               </Grid>
+              <Grid item xs={2}>
+                <Button sx={{ color: "#000", fontSize: "20px" }}>
+                  <RestaurantMenuOutlinedIcon sx={{ fontSize: 45 }} />
+                  รีวิวร้านอาหาร
+                </Button>
+              </Grid>
+              <Grid item xs={4} />
             </Grid>
           </Toolbar>
-        </AppBar>
+        </AppBar> */}
       </Box>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ backgroundColor: "white" }}>
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              aria-label="menu"
-            ></IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <img
-                src="assets/image/logo.png"
-                width="120"
-                height="100"
-                alt=""
-              />
-            </Typography>
-            <Button sx={{ color: "#000", fontSize: "26px" }}>
-              <HomeIcon sx={{ fontSize: 50 }} /> &emsp;หน้าแรก
-            </Button>
-            &emsp;
-            <Button sx={{ color: "#000", fontSize: "26px" }}>
-              <RestaurantMenuOutlinedIcon sx={{ fontSize: 50 }} />
-              &emsp; รีวิวร้านอาหาร
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
-      <img
-        src="https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-        style={{ width: "100%", height: "100%" }}
-        alt=""
-      />
+      {/* <Typography
+        variant="h6"
+        component="div"
+        sx={{ flexGrow: 1 }}
+      ></Typography> */}
     </>
   );
 }
