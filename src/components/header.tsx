@@ -4,14 +4,22 @@ import {
   Button,
   Grid,
   IconButton,
+  Link,
   Toolbar,
   Typography,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
+
+  const goToSignIn = () => {
+    navigate("/signin");
+  };
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -31,7 +39,9 @@ export default function Header() {
                 </Typography>
               </Grid>
               <Grid item xs={2}>
-                <PersonIcon />
+                <Link onClick={goToSignIn} sx={{ cursor: "pointer" }}>
+                  <PersonIcon sx={{ color: "white" }} />
+                </Link>
               </Grid>
             </Grid>
           </Toolbar>
