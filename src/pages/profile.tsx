@@ -18,66 +18,30 @@ import { ListType } from "../enum/ListTypeRegister";
 import AccountService from "../services/AccountService";
 import Alerts from "../components/alert";
 import Loading from "../components/loading";
+import Header from "../components/header";
+import PersonIcon from "@mui/icons-material/Person";
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function Profile() {
   const navigate = useNavigate();
-  const [firstname, setFirstName] = React.useState("");
-  const [lastname, setLastName] = React.useState("");
+  const [fullname, setFullname] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [tel, setTel] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [passwordconfirm, setPasswordConfirm] = React.useState("");
-  const [type, setType] = React.useState("");
-  const [accept, setAccept] = React.useState(false);
   const [isAlert, setIsAlert] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [ischecking, setChecking] = React.useState();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (firstname !== "") {
-      if (lastname !== "") {
-        if (email !== "") {
-          if (tel !== "") {
-            if (password !== "" && password === passwordconfirm) {
-              if (type !== "") {
-                if (accept !== false) {
-                  setIsLoading(true);
-                  AccountService.postRegister(
-                    email,
-                    "",
-                    firstname + " " + lastname,
-                    password,
-                    true,
-                    tel,
-                    type === "ผู้ใช้งานทั่วไป" ? "user" : "employer"
-                  )
-                    .then((res: any) => {
-                      setChecking(res.data);
-                      setIsAlert(true);
-                      setIsLoading(false);
-                      setTimeout(() => {
-                        if (res.data === true) {
-                          navigate("/signin");
-                        }
-                      }, 1000);
-                    })
-                    .catch((error) => {
-                      console.log(error);
-                    });
-                }
-              }
-            }
-          }
+    if (fullname !== "") {
+      if (tel !== "") {
+        if (password !== "" && password === passwordconfirm) {
         }
       }
     }
-  };
-
-  const goToSignIn = () => {
-    navigate("/signin");
   };
 
   const optionSelect = [
@@ -102,6 +66,7 @@ export default function SignUp() {
         severity={ischecking === true ? "success" : "error"}
         setIsAlert={setIsAlert}
       />
+      <Header />
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -114,10 +79,10 @@ export default function SignUp() {
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
+              <PersonIcon sx={{ color: "white" }} />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Profile
             </Typography>
             <Box
               component="form"
@@ -126,31 +91,15 @@ export default function SignUp() {
               sx={{ mt: 3 }}
             >
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    required
                     fullWidth
-                    error={firstname === "" ? true : false}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    id="firstName"
-                    label="First Name"
-                    autoFocus
-                    value={firstname}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={lastname === "" ? true : false}
-                    onChange={(e) => setLastName(e.target.value)}
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
-                    value={lastname}
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    disabled
+                    autoComplete="email"
+                    value={email}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -159,10 +108,10 @@ export default function SignUp() {
                     fullWidth
                     error={email === "" ? true : false}
                     onChange={(e) => setEmail(e.target.value)}
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
+                    id="fullname"
+                    label="Fullname"
+                    name="fullname"
+                    autoComplete="fullname"
                     value={email}
                   />
                 </Grid>
@@ -181,9 +130,7 @@ export default function SignUp() {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    required
                     fullWidth
-                    error={password === "" ? true : false}
                     onChange={(e) => setPassword(e.target.value)}
                     name="password"
                     label="Password"
@@ -195,9 +142,7 @@ export default function SignUp() {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    required
                     fullWidth
-                    error={passwordconfirm === "" ? true : false}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
                     name="passwordconfirm"
                     label="PasswordConfirm"
@@ -207,43 +152,6 @@ export default function SignUp() {
                     value={passwordconfirm}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      เลือกประเภท
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={type}
-                      label="เลือกประเภท"
-                      error={type === "" ? true : false}
-                      onChange={(e) => setType(e.target.value)}
-                    >
-                      {optionSelect.map((option, index) => {
-                        return (
-                          <MenuItem value={option.value} key={index}>
-                            {option.value}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        required
-                        value="allowExtraEmails"
-                        color="primary"
-                        checked={accept}
-                        onChange={(e) => setAccept(e.target.checked)}
-                      />
-                    }
-                    label="I want to receive inspiration, marketing promotions and updates via email."
-                  />
-                </Grid>
               </Grid>
               <Button
                 type="submit"
@@ -251,19 +159,8 @@ export default function SignUp() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign Up
+                Commit
               </Button>
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Link
-                    onClick={goToSignIn}
-                    sx={{ cursor: "pointer" }}
-                    variant="body2"
-                  >
-                    Already have an account? Sign in
-                  </Link>
-                </Grid>
-              </Grid>
             </Box>
           </Box>
         </Container>

@@ -19,6 +19,9 @@ export default function Header() {
   const goToSignIn = () => {
     navigate("/signin");
   };
+  const goToHomePage = () => {
+    navigate("/");
+  };
 
   return (
     <>
@@ -69,7 +72,10 @@ export default function Header() {
                 </Typography>
               </Grid>
               <Grid item xs={2}>
-                <Button sx={{ color: "#000", fontSize: "20px" }}>
+                <Button
+                  sx={{ color: "#000", fontSize: "20px" }}
+                  onClick={goToHomePage}
+                >
                   <HomeIcon sx={{ fontSize: 45 }} />
                   หน้าแรก
                 </Button>
