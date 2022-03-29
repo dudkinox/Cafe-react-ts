@@ -12,6 +12,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
 import { useNavigate } from "react-router-dom";
+import { Themes } from "../themes/color";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function Header() {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" style={{ backgroundColor: "#eb1c24" }}>
+        <AppBar position="static" style={{ backgroundColor: Themes.primary }}>
           <Toolbar>
             <Grid
               container
