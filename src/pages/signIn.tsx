@@ -30,7 +30,7 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
 
   const goToSignUp = () => {
-    navigate("/signup");
+    navigate("/signUp");
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

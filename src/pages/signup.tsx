@@ -28,7 +28,7 @@ export default function SignUp() {
   const [email, setEmail] = React.useState("");
   const [tel, setTel] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [passwordconfirm, setPasswordConfirm] = React.useState("");
+  const [passwordConfirm, setPasswordConfirm] = React.useState("");
   const [type, setType] = React.useState("");
   const [accept, setAccept] = React.useState(false);
   const [isAlert, setIsAlert] = React.useState(false);
@@ -41,7 +41,7 @@ export default function SignUp() {
       if (lastname !== "") {
         if (email !== "") {
           if (tel !== "") {
-            if (password !== "" && password === passwordconfirm) {
+            if (password !== "" && password === passwordConfirm) {
               if (type !== "") {
                 if (accept !== false) {
                   setIsLoading(true);
@@ -60,7 +60,7 @@ export default function SignUp() {
                       setIsLoading(false);
                       setTimeout(() => {
                         if (res.data === true) {
-                          navigate("/signin");
+                          navigate("/signIn");
                         }
                       }, 1000);
                     })
@@ -77,7 +77,7 @@ export default function SignUp() {
   };
 
   const goToSignIn = () => {
-    navigate("/signin");
+    navigate("/signIn");
   };
 
   const optionSelect = [
@@ -197,14 +197,14 @@ export default function SignUp() {
                   <TextField
                     required
                     fullWidth
-                    error={passwordconfirm === "" ? true : false}
+                    error={passwordConfirm === "" ? true : false}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
                     name="passwordconfirm"
                     label="PasswordConfirm"
                     type="password"
                     id="passwordconfirm"
                     autoComplete="new-passwordconfirm"
-                    value={passwordconfirm}
+                    value={passwordConfirm}
                   />
                 </Grid>
                 <Grid item xs={12}>

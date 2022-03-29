@@ -3,19 +3,11 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { ListType } from "../enum/ListTypeRegister";
-import AccountService from "../services/AccountService";
 import Alerts from "../components/alert";
 import Loading from "../components/loading";
 import Header from "../components/header";
@@ -24,46 +16,36 @@ import PersonIcon from "@mui/icons-material/Person";
 const theme = createTheme();
 
 export default function Profile() {
-  const navigate = useNavigate();
-  const [fullname, setFullname] = React.useState("");
+  const [fullName, setFullName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [tel, setTel] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [passwordconfirm, setPasswordConfirm] = React.useState("");
+  const [passwordConfirm, setPasswordConfirm] = React.useState("");
   const [isAlert, setIsAlert] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [ischecking, setChecking] = React.useState();
+  const [isChecking, setChecking] = React.useState();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (fullname !== "") {
+    if (fullName !== "") {
       if (tel !== "") {
-        if (password !== "" && password === passwordconfirm) {
+        if (password !== "" && password === passwordConfirm) {
         }
       }
     }
   };
-
-  const optionSelect = [
-    {
-      value: ListType.USER,
-    },
-    {
-      value: ListType.EMPLOYER,
-    },
-  ];
 
   return (
     <>
       {isLoading && <Loading />}
       <Alerts
         message={
-          ischecking === true
+          isChecking === true
             ? "สมัครสมาชิกสำเร็จ"
             : "กรุณากรอกข้อมูลให้ถูกต้อง"
         }
         show={isAlert}
-        severity={ischecking === true ? "success" : "error"}
+        severity={isChecking === true ? "success" : "error"}
         setIsAlert={setIsAlert}
       />
       <Header />
@@ -149,7 +131,7 @@ export default function Profile() {
                     type="password"
                     id="passwordconfirm"
                     autoComplete="new-passwordconfirm"
-                    value={passwordconfirm}
+                    value={passwordConfirm}
                   />
                 </Grid>
               </Grid>
