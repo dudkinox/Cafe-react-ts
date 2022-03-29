@@ -34,10 +34,9 @@ export default function Header() {
               direction="row"
               justifyContent="flex-end"
               alignItems="center"
+              spacing={2}
             >
-              {" "}
-              <Grid item xs />
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <Typography variant="inherit" component="span">
                   ค้นหาร้านอาหารที่ชอบ เน้นรีวิวจริง อร่อยจริง |
                 </Typography>
