@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Themes } from "../themes/color";
@@ -73,7 +73,7 @@ export default function CardCoffee() {
           <FavoriteIcon />
         </IconButton>
         <IconButton aria-label="share">
-          <ShareIcon />
+          <LocationOnIcon />
         </IconButton>
         <ExpandMore
           expand={expanded}
