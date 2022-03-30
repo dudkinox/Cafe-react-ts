@@ -15,20 +15,25 @@ import { useEffect, useState } from "react";
 import AccountService from "../services/AccountService";
 import AccountModel from "../models/AccountModel";
 import Loading from "../components/loading";
+import { Md5 } from "md5-typescript";
+import Alerts from "../components/alert";
 
 const theme = createTheme();
 
 export default function Profile() {
   const navigate = useNavigate();
   const [isChangePassword, setIsChangePassword] = useState(false);
+  const [passwordOldData, setPasswordOldData] = useState("");
   const [passwordOld, setPasswordOld] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [listAccount, setListAccount] = useState<AccountModel>();
+  const [isLogin, setIsLogin] = useState();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [tel, setTel] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
+  const [isAlert, setIsAlert] = useState(false);
 
   const goBack = () => {
     navigate("/");
@@ -41,18 +46,45 @@ export default function Profile() {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-    AccountService.UpdateProfile(
-      token,
-      name,
-      email,
-      listAccount?.idStore,
-      tel,
-      listAccount?.type,
-      passwordOld,
-      listAccount?.status
-    ).then((res) => {
-      setIsLoading(false);
-    });
+    const changeOld = Md5.init(passwordOld);
+    const changeNew = Md5.init(newPassword);
+    if (passwordOld !== "" || newPassword !== "") {
+      if (changeOld === passwordOldData && newPassword !== "") {
+        AccountService.UpdateProfile(
+          token,
+          name,
+          email,
+          listAccount?.idStore,
+          tel,
+          listAccount?.type,
+          changeNew,
+          listAccount?.status
+        ).then((res) => {
+          setPasswordOldData(changeNew);
+          setIsAlert(false);
+          setIsLoading(false);
+          setIsChangePassword(false);
+          setPasswordOld("");
+          setNewPassword("");
+        });
+      } else {
+        setIsLoading(false);
+        setIsAlert(true);
+      }
+    } else {
+      AccountService.UpdateProfile(
+        token,
+        name,
+        email,
+        listAccount?.idStore,
+        tel,
+        listAccount?.type,
+        passwordOldData,
+        listAccount?.status
+      ).then((res) => {
+        setIsLoading(false);
+      });
+    }
   };
 
   useEffect(() => {
@@ -62,6 +94,7 @@ export default function Profile() {
       setName(res.name);
       setEmail(res.email);
       setTel(res.tel);
+      setPasswordOldData(res.password);
       setIsLoading(false);
     });
   }, [token]);
@@ -71,6 +104,12 @@ export default function Profile() {
   }
   return (
     <>
+      <Alerts
+        message={isLogin ? "เข้าสู่ระบบ" : "รหัสผ่านไม่ถูกต้อง"}
+        show={isAlert}
+        severity={isLogin ? "success" : "error"}
+        setIsAlert={setIsAlert}
+      />
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -134,7 +173,6 @@ export default function Profile() {
                         label="Password Old"
                         type="password"
                         // TODO เปลี่ยนรหัสผ่าน
-                        disabled
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -147,7 +185,6 @@ export default function Profile() {
                         value={newPassword}
                         type="password"
                         // TODO เปลี่ยนรหัสผ่าน
-                        disabled
                       />
                     </Grid>
                   </>
