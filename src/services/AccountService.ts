@@ -38,11 +38,11 @@ const UpdateProfile = (
   id: string | null,
   name: string,
   email: string,
-  idStore: string,
+  idStore: string | undefined,
   tel: string,
-  type: string,
+  type: string | undefined,
   pass: string,
-  status: boolean
+  status: boolean | undefined
 ) => {
   const data = {
     email: email,

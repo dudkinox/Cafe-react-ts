@@ -13,20 +13,19 @@ import { Themes } from "../themes/color";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AccountService from "../services/AccountService";
+import AccountModel from "../models/AccountModel";
 
 const theme = createTheme();
 
 export default function Profile() {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [tel, setTel] = useState("");
   const [isChangePassword, setIsChangePassword] = useState(false);
   const [passwordOld, setPasswordOld] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [type, setType] = useState("");
-  const [status, setStatus] = useState(true);
-  const [idStore, setIdStore] = useState("");
+  const [listAccount, setListAccount] = useState<AccountModel>();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [tel, setTel] = useState("");
   const token = localStorage.getItem("token");
 
   const goBack = () => {
@@ -43,25 +42,21 @@ export default function Profile() {
       token,
       name,
       email,
-      idStore,
+      listAccount?.idStore,
       tel,
-      type,
+      listAccount?.type,
       passwordOld,
-      status
+      listAccount?.status
     ).then((res) => {
       console.log(res);
     });
   };
 
   useEffect(() => {
+    console.log("token");
     AccountService.getFindById(token).then((res) => {
-      setName(res.name);
-      setEmail(res.email);
-      setTel(res.tel);
-      setType(res.type);
-      setStatus(res.status);
-      setPasswordOld(res.password);
-      setIdStore(res.idStore);
+      console.log(res);
+      setListAccount(res);
     });
   }, [token]);
 
@@ -78,7 +73,7 @@ export default function Profile() {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <Avatar sx={{ m: 1, backgroundColor: "secondary.main" }}>
               <PersonIcon sx={{ color: "white" }} />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -92,8 +87,8 @@ export default function Profile() {
                     fullWidth
                     error={name === "" ? true : false}
                     onChange={(e) => setName(e.target.value)}
-                    label="Full Name"
-                    value={name}
+                    placeholder="Full Name"
+                    value={listAccount?.name}
                     type="text"
                   />
                 </Grid>
@@ -103,8 +98,8 @@ export default function Profile() {
                     fullWidth
                     error={email === "" ? true : false}
                     onChange={(e) => setEmail(e.target.value)}
-                    label="Email Address"
-                    value={email}
+                    placeholder="Email Address"
+                    value={listAccount?.email}
                     type="email"
                   />
                 </Grid>
@@ -114,8 +109,8 @@ export default function Profile() {
                     fullWidth
                     error={tel === "" ? true : false}
                     onChange={(e) => setTel(e.target.value)}
-                    label="Phone Number"
-                    value={tel}
+                    placeholder="Phone Number"
+                    value={listAccount?.tel}
                     type="text"
                   />
                 </Grid>
@@ -128,7 +123,6 @@ export default function Profile() {
                         error={passwordOld === "" ? true : false}
                         onChange={(e) => setPasswordOld(e.target.value)}
                         label="Password Old"
-                        value={passwordOld}
                         type="password"
                       />
                     </Grid>
