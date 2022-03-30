@@ -7,6 +7,12 @@ const getLogin = (email: string | null, password: string | null) => {
     .then((res) => res.data);
 };
 
+const getFindById = (token: string | null) => {
+  return httpClient
+    .get<AccountModel>(`/account/${token}`)
+    .then((res) => res.data);
+};
+
 const postRegister = (
   email: string,
   id_store: string,
@@ -31,6 +37,7 @@ const postRegister = (
 const AccountService = {
   getLogin,
   postRegister,
+  getFindById,
 };
 
 export default AccountService;

@@ -13,19 +13,58 @@ import PersonIcon from "@mui/icons-material/Person";
 import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
 import { useNavigate } from "react-router-dom";
 import { Themes } from "../themes/color";
+import ModalAlert from "./Modal";
+import { useState } from "react";
 
-export default function Header() {
+interface HeaderProps {
+  email: string;
+  name: string;
+  type: string;
+}
+
+export default function Header({ email, name, type }: HeaderProps) {
   const navigate = useNavigate();
+  const [isProfile, setIsProfile] = useState(false);
 
   const goToSignIn = () => {
-    navigate("/signIn");
+    if (type === undefined) {
+      navigate("/signIn");
+    } else {
+      setIsProfile(true);
+    }
   };
+
+  const closeProfile = () => {
+    setIsProfile(false);
+  };
+
   const goToHomePage = () => {
     navigate("/");
   };
 
+  const goLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/signIn");
+  };
+
+  const goProfile = () => {
+    navigate("/profile");
+  };
+
   return (
     <>
+      {isProfile && (
+        <ModalAlert
+          show={isProfile}
+          handleClose={closeProfile}
+          title="ข้อมูลส่วนตัว"
+          detail={`ชื่อ: ${name}\nอีเมล: ${email}`}
+          buttonSubmitted="Update profile"
+          buttonCancel="Logout"
+          functionSubmitted={goProfile}
+          functionCancel={goLogout}
+        />
+      )}
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" style={{ backgroundColor: Themes.primary }}>
           <Toolbar>
@@ -41,9 +80,15 @@ export default function Header() {
                   ค้นหาร้านอาหารที่ชอบ เน้นรีวิวจริง อร่อยจริง |
                 </Typography>
               </Grid>
+              <Grid item xs={3}>
+                <Typography variant="inherit" component="span">
+                  ต้อนรับคุณ : {name}
+                </Typography>
+              </Grid>
               <Grid item xs={2}>
                 <Link onClick={goToSignIn} sx={{ cursor: "pointer" }}>
                   <PersonIcon sx={{ color: "white" }} />
+                  <Typography sx={{ color: Themes.white }}>{type}</Typography>
                 </Link>
               </Grid>
             </Grid>

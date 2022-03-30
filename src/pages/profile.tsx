@@ -8,47 +8,25 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Alerts from "../components/alert";
-import Loading from "../components/loading";
-import Header from "../components/header";
 import PersonIcon from "@mui/icons-material/Person";
+import { Themes } from "../themes/color";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const theme = createTheme();
 
 export default function Profile() {
-  const [fullName, setFullName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [tel, setTel] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [passwordConfirm, setPasswordConfirm] = React.useState("");
-  const [isAlert, setIsAlert] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [isChecking, setChecking] = React.useState();
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [tel, setTel] = useState("");
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (fullName !== "") {
-      if (tel !== "") {
-        if (password !== "" && password === passwordConfirm) {
-        }
-      }
-    }
+  const goBack = () => {
+    navigate("/");
   };
 
   return (
     <>
-      {isLoading && <Loading />}
-      <Alerts
-        message={
-          isChecking === true
-            ? "สมัครสมาชิกสำเร็จ"
-            : "กรุณากรอกข้อมูลให้ถูกต้อง"
-        }
-        show={isAlert}
-        severity={isChecking === true ? "success" : "error"}
-        setIsAlert={setIsAlert}
-      />
-      <Header />
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -69,19 +47,19 @@ export default function Profile() {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
               sx={{ mt: 3 }}
             >
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
+                    required
                     fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    disabled
-                    autoComplete="email"
-                    value={email}
+                    error={name === "" ? true : false}
+                    onChange={(e) => setName(e.target.value)}
+                    label="Full Name"
+                    value={name}
+                    type="text"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -90,11 +68,9 @@ export default function Profile() {
                     fullWidth
                     error={email === "" ? true : false}
                     onChange={(e) => setEmail(e.target.value)}
-                    id="fullname"
-                    label="Fullname"
-                    name="fullname"
-                    autoComplete="fullname"
+                    label="Email Address"
                     value={email}
+                    type="email"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -103,35 +79,9 @@ export default function Profile() {
                     fullWidth
                     error={tel === "" ? true : false}
                     onChange={(e) => setTel(e.target.value)}
-                    id="tel"
-                    label="Tel"
-                    name="tel"
-                    autoComplete="tel"
+                    label="Phone Number"
                     value={tel}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    onChange={(e) => setPassword(e.target.value)}
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="new-password"
-                    value={password}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    onChange={(e) => setPasswordConfirm(e.target.value)}
-                    name="passwordconfirm"
-                    label="PasswordConfirm"
-                    type="password"
-                    id="passwordconfirm"
-                    autoComplete="new-passwordconfirm"
-                    value={passwordConfirm}
+                    type="text"
                   />
                 </Grid>
               </Grid>
@@ -141,7 +91,24 @@ export default function Profile() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Commit
+                อัพเดต
+              </Button>
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                onClick={goBack}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  color: Themes.secondary,
+                  backgroundColor: Themes.primary,
+                  "&:hover": {
+                    backgroundColor: Themes.primary,
+                  },
+                }}
+              >
+                ยกเลิก
               </Button>
             </Box>
           </Box>
