@@ -27,7 +27,6 @@ export default function Profile() {
   const [type, setType] = useState("");
   const [status, setStatus] = useState(true);
   const [idStore, setIdStore] = useState("");
-  const [username, setUsername] = useState("");
   const token = localStorage.getItem("token");
 
   const goBack = () => {
@@ -48,7 +47,6 @@ export default function Profile() {
       tel,
       type,
       passwordOld,
-      username,
       status
     ).then((res) => {
       console.log(res);
@@ -64,7 +62,6 @@ export default function Profile() {
       setStatus(res.status);
       setPasswordOld(res.password);
       setIdStore(res.idStore);
-      setUsername(res.username);
     });
   }, [token]);
 
