@@ -7,4 +7,6 @@ export default interface AccountModel {
   tel: string;
   type: string;
   verify: boolean;
+  password: string;
+  idStore: string;
 }

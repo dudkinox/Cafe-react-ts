@@ -20,7 +20,8 @@ const postRegister = (
   password: string,
   status: boolean,
   tel: string,
-  type: string
+  type: string,
+  username: string
 ) => {
   const data = {
     email,
@@ -30,6 +31,7 @@ const postRegister = (
     status,
     tel,
     type,
+    username,
   };
   return httpClient.post<AccountModel>("/account", data);
 };
@@ -38,14 +40,22 @@ const UpdateProfile = (
   id: string | null,
   name: string,
   email: string,
-  phone: string,
-  pass: string
+  idStore: string,
+  tel: string,
+  type: string,
+  pass: string,
+  username: string,
+  status: boolean
 ) => {
   const data = {
-    name,
-    email,
-    phone,
-    pass,
+    email: email,
+    id_store: idStore,
+    name: name,
+    tel: tel,
+    type: type,
+    password: pass,
+    status: status,
+    username: username,
   };
 
   return httpClient.put<AccountModel>(`/account/${id}`, { data });

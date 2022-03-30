@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PersonIcon from "@mui/icons-material/Person";
 import { Themes } from "../themes/color";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AccountService from "../services/AccountService";
 
 const theme = createTheme();
@@ -24,6 +24,10 @@ export default function Profile() {
   const [isChangePassword, setIsChangePassword] = useState(false);
   const [passwordOld, setPasswordOld] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [type, setType] = useState("");
+  const [status, setStatus] = useState(true);
+  const [idStore, setIdStore] = useState("");
+  const [username, setUsername] = useState("");
   const token = localStorage.getItem("token");
 
   const goBack = () => {
@@ -36,8 +40,33 @@ export default function Profile() {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    AccountService.UpdateProfile(token, name, email, tel, newPassword);
+    AccountService.UpdateProfile(
+      token,
+      name,
+      email,
+      idStore,
+      tel,
+      type,
+      passwordOld,
+      username,
+      status
+    ).then((res) => {
+      console.log(res);
+    });
   };
+
+  useEffect(() => {
+    AccountService.getFindById(token).then((res) => {
+      setName(res.name);
+      setEmail(res.email);
+      setTel(res.tel);
+      setType(res.type);
+      setStatus(res.status);
+      setPasswordOld(res.password);
+      setIdStore(res.idStore);
+      setUsername(res.username);
+    });
+  }, [token]);
 
   return (
     <>
