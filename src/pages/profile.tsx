@@ -40,6 +40,7 @@ export default function Profile() {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
     AccountService.UpdateProfile(
       token,
       name,
@@ -50,7 +51,7 @@ export default function Profile() {
       passwordOld,
       listAccount?.status
     ).then((res) => {
-      console.log(res);
+      setIsLoading(false);
     });
   };
 
