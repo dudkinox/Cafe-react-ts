@@ -36,12 +36,12 @@ const postRegister = (
 
 const UpdateProfile = (
   id: string | null,
-  name: string,
-  email: string,
+  name: string | undefined,
+  email: string | undefined,
   idStore: string | undefined,
-  tel: string,
+  tel: string | undefined,
   type: string | undefined,
-  pass: string,
+  pass: string | undefined,
   status: boolean | undefined
 ) => {
   const data = {

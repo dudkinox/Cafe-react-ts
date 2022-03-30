@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AccountService from "../services/AccountService";
 import AccountModel from "../models/AccountModel";
+import Loading from "../components/loading";
 
 const theme = createTheme();
 
@@ -26,6 +27,7 @@ export default function Profile() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [tel, setTel] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
 
   const goBack = () => {
@@ -53,13 +55,19 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    console.log("token");
+    setIsLoading(true);
     AccountService.getFindById(token).then((res) => {
-      console.log(res);
       setListAccount(res);
+      setName(res.name);
+      setEmail(res.email);
+      setTel(res.tel);
+      setIsLoading(false);
     });
   }, [token]);
 
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -88,7 +96,7 @@ export default function Profile() {
                     error={name === "" ? true : false}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Full Name"
-                    value={listAccount?.name}
+                    value={name}
                     type="text"
                   />
                 </Grid>
@@ -99,7 +107,7 @@ export default function Profile() {
                     error={email === "" ? true : false}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email Address"
-                    value={listAccount?.email}
+                    value={email}
                     type="email"
                   />
                 </Grid>
@@ -110,7 +118,7 @@ export default function Profile() {
                     error={tel === "" ? true : false}
                     onChange={(e) => setTel(e.target.value)}
                     placeholder="Phone Number"
-                    value={listAccount?.tel}
+                    value={tel}
                     type="text"
                   />
                 </Grid>
@@ -124,6 +132,8 @@ export default function Profile() {
                         onChange={(e) => setPasswordOld(e.target.value)}
                         label="Password Old"
                         type="password"
+                        // TODO เปลี่ยนรหัสผ่าน
+                        disabled
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -135,6 +145,8 @@ export default function Profile() {
                         label="Password New"
                         value={newPassword}
                         type="password"
+                        // TODO เปลี่ยนรหัสผ่าน
+                        disabled
                       />
                     </Grid>
                   </>
