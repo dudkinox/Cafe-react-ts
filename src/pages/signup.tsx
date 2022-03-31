@@ -259,6 +259,7 @@ export default function SignUp() {
                     onClick={goToSignIn}
                     sx={{ cursor: "pointer" }}
                     variant="body2"
+                    underline="none"
                   >
                     Already have an account? Sign in
                   </Link>

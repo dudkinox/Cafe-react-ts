@@ -124,12 +124,13 @@ export default function SignIn() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link underline="none" href="#" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
                   <Link
+                    underline="none"
                     onClick={goToSignUp}
                     sx={{ cursor: "pointer" }}
                     variant="body2"

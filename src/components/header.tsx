@@ -14,17 +14,29 @@ import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlin
 import { useNavigate } from "react-router-dom";
 import { Themes } from "../themes/color";
 import ModalAlert from "./Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import StoreService from "../services/StoreService";
+import Loading from "./loading";
+import StoreModel from "../models/StoreModel";
 
 interface HeaderProps {
   email: string;
   name: string;
   type: string;
+  token: any;
+  checkStore: any;
 }
 
-export default function Header({ email, name, type }: HeaderProps) {
+export default function Header({
+  email,
+  name,
+  type,
+  token,
+  checkStore,
+}: HeaderProps) {
   const navigate = useNavigate();
   const [isProfile, setIsProfile] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const goToSignIn = () => {
     if (type === undefined) {
@@ -47,12 +59,33 @@ export default function Header({ email, name, type }: HeaderProps) {
     navigate("/signIn");
   };
 
+  const goStore = () => {
+    navigate("/store");
+  };
+
   const goProfile = () => {
     navigate("/profile");
   };
 
+  const createStore = () => {
+    setIsLoading(true);
+    StoreService.createStore("", token, "", "", "", "", "", true, "", 0, "")
+      .then((res: any) => {
+        setIsLoading(false);
+        setTimeout(() => {
+          if (res.data === true) {
+            navigate("/store");
+          }
+        }, 1000);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
+      {isLoading && <Loading />}
       {isProfile && (
         <ModalAlert
           show={isProfile}
@@ -80,13 +113,45 @@ export default function Header({ email, name, type }: HeaderProps) {
                   ค้นหาร้านอาหารที่ชอบ เน้นรีวิวจริง อร่อยจริง |
                 </Typography>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={1.5}>
                 <Typography variant="inherit" component="span">
                   ต้อนรับคุณ : {name}
                 </Typography>
               </Grid>
+              {type === "employer" && checkStore === false && (
+                <Grid item xs={1.1}>
+                  <Link
+                    onClick={createStore}
+                    sx={{ cursor: "pointer" }}
+                    underline="none"
+                  >
+                    <Typography sx={{ color: Themes.white }}>
+                      สร้างร้านค้า
+                    </Typography>
+                  </Link>
+                </Grid>
+              )}
+
+              {type === "employer" && checkStore !== false && (
+                <Grid item xs={1.1}>
+                  <Link
+                    onClick={goStore}
+                    sx={{ cursor: "pointer" }}
+                    underline="none"
+                  >
+                    <Typography sx={{ color: Themes.white }}>
+                      แก้ไขร้านค้า
+                    </Typography>
+                  </Link>
+                </Grid>
+              )}
+
               <Grid item xs={2}>
-                <Link onClick={goToSignIn} sx={{ cursor: "pointer" }}>
+                <Link
+                  underline="none"
+                  onClick={goToSignIn}
+                  sx={{ cursor: "pointer" }}
+                >
                   <PersonIcon sx={{ color: "white" }} />
                   <Typography sx={{ color: Themes.white }}>{type}</Typography>
                 </Link>
