@@ -33,14 +33,22 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-export default function CardCoffee() {
+interface CardCoffeeProps {
+  onClick: () => void;
+}
+
+export default function CardCoffee({ onClick }: CardCoffeeProps) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card
+      sx={{ maxWidth: 345 }}
+      onClick={onClick}
+      style={{ cursor: "pointer" }}
+    >
       <CardHeader
         avatar={
           <Avatar sx={{ backgroundColor: Themes.primary }} aria-label="recipe">

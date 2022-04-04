@@ -12,13 +12,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import { Themes } from "../themes/color";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import AccountService from "../services/AccountService";
-import AccountModel from "../models/AccountModel";
 import Loading from "../components/loading";
-import { Md5 } from "md5-typescript";
 import Alerts from "../components/alert";
 import StoreService from "../services/StoreService";
-import StoreModel from "../models/StoreModel";
 
 const theme = createTheme();
 
@@ -41,9 +37,16 @@ export default function StorePage() {
     navigate("/");
   };
 
+<<<<<<< Updated upstream
   const preview = (e: FileList | null) => {
     setImage(e);
     console.log(e);
+=======
+  const preview = (
+    event: React.ChangeEvent<HTMLInputElement> | null | FileList
+  ) => {
+    // setImage(event.target.files);
+>>>>>>> Stashed changes
     const reader = new FileReader();
     reader.onloadend = () => {
       // console.log(reader.result);
@@ -115,7 +118,13 @@ export default function StorePage() {
               <input
                 type="file"
                 hidden
+<<<<<<< Updated upstream
                 onChange={(e) => preview(e.target.files)}
+=======
+                onChange={(e) => {
+                  preview(e.target.files);
+                }}
+>>>>>>> Stashed changes
               />
             </Button>
             {previewImage !== "" ? (

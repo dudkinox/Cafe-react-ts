@@ -14,10 +14,9 @@ import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlin
 import { useNavigate } from "react-router-dom";
 import { Themes } from "../themes/color";
 import ModalAlert from "./Modal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import StoreService from "../services/StoreService";
 import Loading from "./loading";
-import StoreModel from "../models/StoreModel";
 
 interface HeaderProps {
   email: string;
@@ -174,7 +173,7 @@ export default function Header({
                 <IconButton size="large" edge="start" aria-label="menu" />
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                   <img
-                    src="assets/image/logo.png"
+                    src="../assets/image/logo.png"
                     width="120"
                     height="100"
                     alt=""

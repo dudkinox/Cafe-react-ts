@@ -2,8 +2,14 @@ import { Container, Grid, Typography } from "@mui/material";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import { Themes } from "../themes/color";
 import CardCoffee from "./card";
+import { useNavigate } from "react-router-dom";
 
 export default function ConnTent() {
+  const navigate = useNavigate();
+  const goToReview = (id: string) => {
+    navigate(`/review/${id}`);
+  };
+
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2}>
@@ -23,13 +29,7 @@ export default function ConnTent() {
       </Grid>
       <Grid container spacing={3} sx={{ margin: 3 }}>
         <Grid item xs={4}>
-          <CardCoffee />
-        </Grid>
-        <Grid item xs={4}>
-          <CardCoffee />
-        </Grid>
-        <Grid item xs={4}>
-          <CardCoffee />
+          <CardCoffee onClick={() => goToReview("1")} />
         </Grid>
       </Grid>
     </Container>
