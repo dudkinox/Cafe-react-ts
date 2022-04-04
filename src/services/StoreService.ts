@@ -11,6 +11,27 @@ const getStoreId = (token: string | null) => {
   return httpClient.get<StoreModel>(`/store/${token}`).then((res) => res.data);
 };
 
+const UpdateStoreId = (
+  token: string | null,
+  name: string | null,
+  address: string | undefined,
+  time: string | undefined,
+  tel: string | undefined,
+  web: string | undefined,
+  linkmap: string | undefined
+) => {
+  const data = {
+    name: name,
+    address: address,
+    open: time,
+    tel: tel,
+    website: web,
+    latitude: linkmap,
+  };
+
+  return httpClient.put<string>(`/store/update/${token}`, data);
+};
+
 const createStore = (
   address: string,
   idstore: string,
@@ -66,6 +87,7 @@ const createStore = (
 const StoreService = {
   createStore,
   getStoreId,
+  UpdateStoreId,
 };
 
 export default StoreService;

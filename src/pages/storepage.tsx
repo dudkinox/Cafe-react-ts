@@ -17,77 +17,70 @@ import AccountModel from "../models/AccountModel";
 import Loading from "../components/loading";
 import { Md5 } from "md5-typescript";
 import Alerts from "../components/alert";
+import StoreService from "../services/StoreService";
+import StoreModel from "../models/StoreModel";
 
 const theme = createTheme();
 
 export default function StorePage() {
   const navigate = useNavigate();
-  const [isChangePassword, setIsChangePassword] = useState(false);
-  const [passwordOldData, setPasswordOldData] = useState("");
-  const [passwordOld, setPasswordOld] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [listAccount, setListAccount] = useState<AccountModel>();
   const [isLogin, setIsLogin] = useState();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [tel, setTel] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
   const [isAlert, setIsAlert] = useState(false);
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [time, setTime] = useState("");
+  const [tel, setTel] = useState("");
+  const [web, setWeb] = useState("");
+  const [map, setLinkmap] = useState("");
+  const [image, setImage] = useState<any>();
+  const [previewImage, setPreviewImage] = useState<string | undefined>("");
 
   const goBack = () => {
     navigate("/");
   };
 
-  const changePassword = () => {
-    setIsChangePassword(true);
-  };
+  const preview = (event: React.ChangeEvent<HTMLInputElement> | null) => {
+    setImage(event.target.files );
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      // console.log(reader.result);
+      setPreviewImage(reader.result?.toString());
+      console.log(previewImage);
+    };
+    reader.readAsDataURL(image[0]);
+  }
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsLoading(true);
-    const changeOld = Md5.init(passwordOld);
-    const changeNew = Md5.init(newPassword);
-    if (passwordOld !== "" || newPassword !== "") {
-      if (changeOld === passwordOldData && newPassword !== "") {
-        AccountService.UpdateProfile(
-          token,
-          name,
-          email,
-          listAccount?.idStore,
-          tel,
-          listAccount?.type,
-          changeNew,
-          listAccount?.status
-        ).then((res) => {
-          setPasswordOldData(changeNew);
-          setIsAlert(false);
-          setIsLoading(false);
-          setIsChangePassword(false);
-          setPasswordOld("");
-          setNewPassword("");
-        });
-      } else {
-        setIsLoading(false);
-        setIsAlert(true);
-      }
-    } else {
-      AccountService.UpdateProfile(
-        token,
-        name,
-        email,
-        listAccount?.idStore,
-        tel,
-        listAccount?.type,
-        passwordOldData,
-        listAccount?.status
-      ).then((res) => {
-        setIsLoading(false);
-      });
-    }
+    
+    // setIsLoading(true);
+    // StoreService.UpdateStoreId(token, name, address, time, tel, web, map).then(
+    //   (res) => {
+    //     if (res.data === "อัพเดตข้อมูลแล้ว") {
+    //       setIsLoading(false);
+    //     }
+    //   }
+    // );
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setIsLoading(true);
+    StoreService.getStoreId(token).then((res) => {
+      setName(res.name);
+      setAddress(res.address);
+      setTime(res.open);
+      setTel(res.tel);
+      setWeb(res.website);
+      setLinkmap(res.latitude);
+      setIsLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    
+  }, []);
 
   if (isLoading) {
     return <Loading />;
@@ -111,11 +104,30 @@ export default function StorePage() {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, backgroundColor: "secondary.main" }}>
-              <PersonIcon sx={{ color: "white" }} />
-            </Avatar>
+            <Button
+              sx={{ marginBottom: 3 }}
+              variant="contained"
+              component="label"
+            >
+              Upload File
+              <Avatar sx={{ m: 1, backgroundColor: "secondary.main" }}>
+                <PersonIcon sx={{ color: "white" }} />
+              </Avatar>
+              <input
+                type="file"
+                hidden
+                onChange={(e) => {preview(e.target.files)}}
+              />
+            </Button>
+            {previewImage !== "" ? (
+              <Box component="div">
+                <img src={previewImage} />
+              </Box>
+            ) : (
+              <></>
+            )}
             <Typography component="h1" variant="h5">
-              Profile
+              แก้ไขร้านคาเฟ่
             </Typography>
             <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
               <Grid container spacing={2}>
@@ -125,7 +137,7 @@ export default function StorePage() {
                     fullWidth
                     error={name === "" ? true : false}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Full Name"
+                    placeholder="ชื่อร้าน"
                     value={name}
                     type="text"
                   />
@@ -134,11 +146,22 @@ export default function StorePage() {
                   <TextField
                     required
                     fullWidth
-                    error={email === "" ? true : false}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email Address"
-                    value={email}
-                    type="email"
+                    error={address === "" ? true : false}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="ข้อมูลร้าน"
+                    value={address}
+                    type="text"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    error={time === "" ? true : false}
+                    onChange={(e) => setTime(e.target.value)}
+                    placeholder="เวลาทำการ"
+                    value={time}
+                    type="text"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -147,39 +170,43 @@ export default function StorePage() {
                     fullWidth
                     error={tel === "" ? true : false}
                     onChange={(e) => setTel(e.target.value)}
-                    placeholder="Phone Number"
+                    placeholder="เบอร์โทรร้าน"
                     value={tel}
                     type="text"
                   />
                 </Grid>
-                {isChangePassword && (
-                  <>
-                    <Grid item xs={12}>
-                      <TextField
-                        required
-                        fullWidth
-                        error={passwordOld === "" ? true : false}
-                        onChange={(e) => setPasswordOld(e.target.value)}
-                        label="Password Old"
-                        type="password"
-                        // TODO เปลี่ยนรหัสผ่าน
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        required
-                        fullWidth
-                        error={newPassword === "" ? true : false}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        label="Password New"
-                        value={newPassword}
-                        type="password"
-                        // TODO เปลี่ยนรหัสผ่าน
-                      />
-                    </Grid>
-                  </>
-                )}
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    error={web === "" ? true : false}
+                    onChange={(e) => setWeb(e.target.value)}
+                    placeholder="เว็บไซต์"
+                    value={web}
+                    type="text"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    error={map === "" ? true : false}
+                    onChange={(e) => setLinkmap(e.target.value)}
+                    placeholder="Link GoogleMap"
+                    value={map}
+                    type="text"
+                  />
+                </Grid>
               </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                color="success"
+              >
+                อัพเดต
+              </Button>
               <Button
                 type="button"
                 fullWidth
