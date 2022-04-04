@@ -41,8 +41,9 @@ export default function StorePage() {
     navigate("/");
   };
 
-  const preview = (event: React.ChangeEvent<HTMLInputElement> | null) => {
-    setImage(event.target.files );
+  const preview = (e: FileList | null) => {
+    setImage(e);
+    console.log(e);
     const reader = new FileReader();
     reader.onloadend = () => {
       // console.log(reader.result);
@@ -50,11 +51,11 @@ export default function StorePage() {
       console.log(previewImage);
     };
     reader.readAsDataURL(image[0]);
-  }
+  };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     // setIsLoading(true);
     // StoreService.UpdateStoreId(token, name, address, time, tel, web, map).then(
     //   (res) => {
@@ -78,9 +79,7 @@ export default function StorePage() {
     });
   }, []);
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   if (isLoading) {
     return <Loading />;
@@ -116,7 +115,7 @@ export default function StorePage() {
               <input
                 type="file"
                 hidden
-                onChange={(e) => {preview(e.target.files)}}
+                onChange={(e) => preview(e.target.files)}
               />
             </Button>
             {previewImage !== "" ? (
