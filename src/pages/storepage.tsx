@@ -37,16 +37,10 @@ export default function StorePage() {
     navigate("/");
   };
 
-<<<<<<< Updated upstream
-  const preview = (e: FileList | null) => {
-    setImage(e);
-    console.log(e);
-=======
   const preview = (
     event: React.ChangeEvent<HTMLInputElement> | null | FileList
   ) => {
     // setImage(event.target.files);
->>>>>>> Stashed changes
     const reader = new FileReader();
     reader.onloadend = () => {
       // console.log(reader.result);
@@ -118,13 +112,7 @@ export default function StorePage() {
               <input
                 type="file"
                 hidden
-<<<<<<< Updated upstream
                 onChange={(e) => preview(e.target.files)}
-=======
-                onChange={(e) => {
-                  preview(e.target.files);
-                }}
->>>>>>> Stashed changes
               />
             </Button>
             {previewImage !== "" ? (
