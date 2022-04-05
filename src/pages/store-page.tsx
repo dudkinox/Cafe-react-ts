@@ -20,10 +20,8 @@ const theme = createTheme();
 
 export default function StorePage1() {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
-  const [isAlert, setIsAlert] = useState(false);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [time, setTime] = useState("");
@@ -32,6 +30,17 @@ export default function StorePage1() {
   const [map, setLinkmap] = useState("");
   const [image, setImage] = useState<any>();
   const [previewImage, setPreviewImage] = useState<any>();
+
+  const styles = {
+    image: { maxWidth: "100%", maxHeight: 320 },
+    delete: {
+      cursor: "pointer",
+      padding: 15,
+      background: "red",
+      color: "white",
+      border: "none",
+    },
+  };
 
   const goBack = () => {
     navigate("/");
@@ -81,12 +90,6 @@ export default function StorePage1() {
   }
   return (
     <>
-      <Alerts
-        message={isLogin ? "เข้าสู่ระบบ" : "รหัสผ่านไม่ถูกต้อง"}
-        show={isAlert}
-        severity={isLogin ? "success" : "error"}
-        setIsAlert={setIsAlert}
-      />
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -98,6 +101,20 @@ export default function StorePage1() {
               alignItems: "center",
             }}
           >
+            {previewImage && (
+              <Box component="div">
+                <img
+                  src={URL.createObjectURL(previewImage)}
+                  style={styles.image}
+                  alt="Thumb"
+                />
+              </Box>
+            )}
+            {image && !previewImage && (
+              <Box component="div">
+                <img src={image} style={styles.image} alt="Thumb" />
+              </Box>
+            )}
             <Button
               sx={{ marginBottom: 3 }}
               variant="contained"
@@ -109,16 +126,6 @@ export default function StorePage1() {
               </Avatar>
               <input type="file" hidden onChange={imageChange as any} />
             </Button>
-            {previewImage && (
-              <Box component="div">
-                <img src={URL.createObjectURL(previewImage)} alt="Thumb" />
-              </Box>
-            )}
-            {image && !previewImage && (
-              <Box component="div">
-                <img src={image} alt="Thumb" />
-              </Box>
-            )}
             <Typography component="h1" variant="h5">
               แก้ไขร้านคาเฟ่
             </Typography>
