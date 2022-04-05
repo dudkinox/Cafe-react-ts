@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import Loading from "../components/loading";
 import Alerts from "../components/alert";
 import StoreService from "../services/StoreService";
+import { StoreImgViewModel } from "../models/StoreModel";
 
 const theme = createTheme();
 
@@ -115,7 +116,11 @@ export default function StoreImgView() {
             {image && !previewImage && (
               <Grid container spacing={1}>
                 <>
-                  <Getimage />
+                  {image.map((item: any) => (
+                    <Box component="div">
+                      <img src={item} style={styles.image} alt="Thumb" />
+                    </Box>
+                  ))}
                 </>
               </Grid>
               //   <Box component="div">
