@@ -1,5 +1,5 @@
 import { httpClient } from "../http/client";
-import StoreModel from "../models/StoreModel";
+import StoreModel, { ImageStore } from "../models/StoreModel";
 
 // const getLogin = (email: string | null, password: string | null) => {
 //   return httpClient
@@ -61,6 +61,17 @@ const createStore = (
   return httpClient.post<StoreModel>("/store/add", data);
 };
 
+const uploadImageStore = (data: File, token: string | null) => {
+  var formData = new FormData();
+  formData.append("img", data);
+
+  return httpClient.post<ImageStore>(`/store/uploadimg/${token}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 // const UpdateProfile = (
 //   id: string | null,
 //   name: string | undefined,
@@ -88,6 +99,7 @@ const StoreService = {
   createStore,
   getStoreId,
   UpdateStoreId,
+  uploadImageStore,
 };
 
 export default StoreService;

@@ -12,3 +12,7 @@ export default interface StoreModel {
   total_review: number;
   website: string;
 }
+
+export interface ImageStore {
+  image: string;
+}
