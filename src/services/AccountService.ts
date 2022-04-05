@@ -7,6 +7,12 @@ const getLogin = (email: string | null, password: string | null) => {
     .then((res) => res.data);
 };
 
+const getUserAll = () => {
+  return httpClient
+    .get<Array<AccountModel[]>>("/account")
+    .then((res) => res.data);
+};
+
 const getFindById = (token: string | null) => {
   return httpClient
     .get<AccountModel>(`/account/${token}`)
@@ -57,11 +63,20 @@ const UpdateProfile = (
   return httpClient.put<AccountModel>(`/account/${id}`, data);
 };
 
+const closeAccount = (id: string | null) => {
+  const data = {
+    status: false,
+  };
+  return httpClient.put<AccountModel>(`/account/${id}`, data);
+};
+
 const AccountService = {
   getLogin,
   postRegister,
   getFindById,
   UpdateProfile,
+  getUserAll,
+  closeAccount,
 };
 
 export default AccountService;

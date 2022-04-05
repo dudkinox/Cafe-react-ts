@@ -79,17 +79,30 @@ const uploadImageStoreView = (data: File, token: string | null) => {
   var formData = new FormData();
   formData.append("img", data);
 
-  return httpClient.post<ImageStore>(`/storeview/uploadimgView/${token}/${token}`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  return httpClient.post<ImageStore>(
+    `/storeview/uploadimgView/${token}/${token}`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
 };
 
 const getImgStoreViewId = (token: string | null) => {
   return httpClient
     .get<StoreImgViewModel>(`/storeview/imgView/${token}`)
     .then((res) => res.data);
+};
+
+const getStoreAll = () => {
+  return httpClient.get<StoreModel>("/store").then((res) => res.data);
+};
+
+const closeStore = (id: string | null) => {
+
+  return httpClient.delete<string>(`/store/delete/${id}`);
 };
 
 // const UpdateProfile = (
@@ -122,6 +135,8 @@ const StoreService = {
   uploadImageStore,
   getImgStoreViewId,
   uploadImageStoreView,
+  getStoreAll,
+  closeStore,
 };
 
 export default StoreService;

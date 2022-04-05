@@ -7,10 +7,10 @@ export default interface StoreModel {
   longitude: string;
   name: string;
   open: string;
-  status: boolean;
   tel: string;
   total_review: number;
   website: string;
+  status: boolean;
 }
 
 export interface ImageStore {

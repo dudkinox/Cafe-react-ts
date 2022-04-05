@@ -1,89 +1,115 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import PersonIcon from "@mui/icons-material/Person";
 import { Themes } from "../themes/color";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "../components/loading";
-import Alerts from "../components/alert";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import AccountService from "../services/AccountService";
+import AccountModel from "../models/AccountModel";
+import { DeleteOutlined } from "@mui/icons-material";
 import StoreService from "../services/StoreService";
+import StoreModel from "../models/StoreModel";
 
 const theme = createTheme();
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 export default function ManagePage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [time, setTime] = useState("");
-  const [tel, setTel] = useState("");
-  const [web, setWeb] = useState("");
-  const [map, setLinkmap] = useState("");
-  const [image, setImage] = useState<any>();
-  const [previewImage, setPreviewImage] = useState<any>();
+  const [data, setDataUser] = useState<any>([]);
+  const [storeData, setStoreData] = useState<any>([]);
+  const [value, setValue] = React.useState(0);
 
-  const styles = {
-    image: { maxWidth: "100%", maxHeight: 320 },
-    delete: {
-      cursor: "pointer",
-      padding: 15,
-      background: "red",
-      color: "white",
-      border: "none",
-    },
-  };
-
-  const goBack = () => {
-    navigate("/");
-  };
-
-  const imageChange = (e: { target: { files: string | any[] } }) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setPreviewImage(e.target.files[0]);
-    }
-  };
-
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsLoading(true);
-    if (previewImage) {
-      StoreService.uploadImageStore(previewImage, token).then(
-        async (url): Promise<void> => {}
-      );
-    }
-    StoreService.UpdateStoreId(token, name, address, time, tel, web, map).then(
-      (res) => {
-        if (res.data === "อัพเดตข้อมูลแล้ว") {
-          setIsLoading(false);
-        }
-      }
-    );
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
 
   useEffect(() => {
     setIsLoading(true);
-    StoreService.getStoreId(token).then((res) => {
-      setName(res.name);
-      setAddress(res.address);
-      setTime(res.open);
-      setTel(res.tel);
-      setWeb(res.website);
-      setLinkmap(res.latitude);
-      setImage(res.image);
+    AccountService.getUserAll().then((res: any) => {
+      var new_result = [];
+      for (var i = 0; i < res.length; i++) {
+        if (res[i].type !== "admin") {
+          const data = {
+            email: res[i].email.toString(),
+            id: res[i].id.toString(),
+            id_store: res[i].id_store.toString(),
+            name: res[i].name.toString(),
+            status: res[i].status,
+            tel: res[i].tel.toString(),
+            type: res[i].type.toString(),
+          };
+          new_result.push(data);
+        }
+      }
+      setDataUser(new_result);
+    });
+    StoreService.getStoreAll().then((res: any) => {
+      setStoreData(res);
+      console.log(res);
       setIsLoading(false);
     });
   }, []);
 
-  useEffect(() => {}, []);
+  const onDeleteAccount = (token: string | null) => {
+    setIsLoading(true);
+    AccountService.closeAccount(token).then((res: any) => {
+      setIsLoading(false);
+    });
+  };
+
+  const onDeleteStore = (token: string | null) => {
+    setIsLoading(true);
+    StoreService.closeStore(token).then((res: any) => {
+      setIsLoading(false);
+    });
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -91,139 +117,127 @@ export default function ManagePage() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
+        <Container component="main">
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 2,
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
+              alignItems: "left",
             }}
           >
-            {previewImage && (
-              <Box component="div">
-                <img
-                  src={URL.createObjectURL(previewImage)}
-                  style={styles.image}
-                  alt="Thumb"
-                />
-              </Box>
-            )}
-            {image && !previewImage && (
-              <Box component="div">
-                <img src={image} style={styles.image} alt="Thumb" />
-              </Box>
-            )}
-            <Button
-              sx={{ marginBottom: 3 }}
-              variant="contained"
-              component="label"
+            <Box
+              sx={{
+                flexGrow: 1,
+                bgcolor: "background.paper",
+                display: "flex",
+                height: 224,
+              }}
             >
-              Upload File
-              <Avatar sx={{ m: 1, backgroundColor: "secondary.main" }}>
-                <PersonIcon sx={{ color: "white" }} />
-              </Avatar>
-              <input type="file" hidden onChange={imageChange as any} />
-            </Button>
-            <Typography component="h1" variant="h5">
-              แก้ไขร้านคาเฟ่
-            </Typography>
-            <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={name === "" ? true : false}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="ชื่อร้าน"
-                    value={name}
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={address === "" ? true : false}
-                    onChange={(e) => setAddress(e.target.value)}
-                    placeholder="ข้อมูลร้าน"
-                    value={address}
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={time === "" ? true : false}
-                    onChange={(e) => setTime(e.target.value)}
-                    placeholder="เวลาทำการ"
-                    value={time}
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={tel === "" ? true : false}
-                    onChange={(e) => setTel(e.target.value)}
-                    placeholder="เบอร์โทรติดต่อ"
-                    value={tel}
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={web === "" ? true : false}
-                    onChange={(e) => setWeb(e.target.value)}
-                    placeholder="เว็บไซต์"
-                    value={web}
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={map === "" ? true : false}
-                    onChange={(e) => setLinkmap(e.target.value)}
-                    placeholder="Link GoogleMap"
-                    value={map}
-                    type="text"
-                  />
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                color="success"
+              <Tabs
+                orientation="vertical"
+                variant="scrollable"
+                value={value}
+                onChange={handleChange}
+                aria-label="Vertical tabs example"
+                sx={{ borderRight: 1, borderColor: "divider" }}
               >
-                อัพเดต
-              </Button>
-              <Button
-                type="button"
-                fullWidth
-                variant="contained"
-                onClick={goBack}
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  color: Themes.secondary,
-                  backgroundColor: Themes.primary,
-                  "&:hover": {
-                    backgroundColor: Themes.primary,
-                  },
-                }}
-              >
-                ยกเลิก
-              </Button>
+                <Tab label="จัดการผู้ใช้งาน" {...a11yProps(0)} />
+                <Tab label="จัดการร้าน" {...a11yProps(1)} />
+              </Tabs>
+              <TabPanel value={value} index={0}>
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: "100%" }} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>อีเมล์</TableCell>
+                        <TableCell align="right">ชื่อ - สกุล</TableCell>
+                        <TableCell align="right">เบอร์โทร</TableCell>
+                        <TableCell align="right">สถานะ</TableCell>
+                        <TableCell align="right">ตำแหน่ง</TableCell>
+                        <TableCell align="right"></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {data.map((item: AccountModel) => (
+                        <TableRow
+                          key={item.name}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {item.email}
+                          </TableCell>
+                          <TableCell align="right">{item.name}</TableCell>
+                          <TableCell align="right">{item.tel}</TableCell>
+                          <TableCell align="right">
+                            {item.status == true ? "ปกติ" : "ปิดบัญชี"}
+                          </TableCell>
+                          <TableCell align="right">{item.type}</TableCell>
+                          <TableCell align="right">
+                            <DeleteOutlined
+                              sx={{ cursor: "pointer" }}
+                              onClick={() => {
+                                onDeleteAccount(item.id);
+                              }}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: "100%" }} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>ชื่อร้าน</TableCell>
+                        <TableCell align="right">ข้อมูลร้าน</TableCell>
+                        <TableCell align="right">เวลาทำการ</TableCell>
+                        <TableCell align="right">เบอร์โทรติดต่อ</TableCell>
+                        <TableCell align="center">เว็บไซต์</TableCell>
+                        <TableCell align="center">แผนที่</TableCell>
+                        <TableCell align="right">สถานะร้าน</TableCell>
+                        <TableCell align="right"></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {storeData.map((item: StoreModel) => (
+                        <TableRow
+                          key={item.name}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {item.name}
+                          </TableCell>
+                          <TableCell align="right">{item.address}</TableCell>
+                          <TableCell align="right">{item.open}</TableCell>
+                          <TableCell align="right">{item.tel}</TableCell>
+                          <TableCell align="right">{item.website}</TableCell>
+                          <TableCell align="right">{item.latitude}</TableCell>
+                          <TableCell align="right">
+                            {item.status == true ? "เปิด" : "ปิดทำการ"}
+                          </TableCell>
+                          <TableCell align="right">
+                            <DeleteOutlined
+                              sx={{ cursor: "pointer" }}
+                              onClick={() => {
+                                onDeleteStore(item.idstore);
+                              }}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </TabPanel>
             </Box>
           </Box>
         </Container>
