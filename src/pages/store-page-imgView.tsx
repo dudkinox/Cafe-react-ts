@@ -22,14 +22,9 @@ export default function StoreImgView() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [time, setTime] = useState("");
-  const [tel, setTel] = useState("");
-  const [web, setWeb] = useState("");
-  const [map, setLinkmap] = useState("");
   const [image, setImage] = useState<any>();
   const [previewImage, setPreviewImage] = useState<any>();
+  const [isbox, setBox] = useState([]);
 
   const styles = {
     image: { maxWidth: "100%", maxHeight: 320 },
@@ -40,6 +35,20 @@ export default function StoreImgView() {
       color: "white",
       border: "none",
     },
+  };
+
+  const Getimage = () => {
+    const box = [];
+    for (let i = 0; i < image.length; i++) {
+      box.push(
+        <Grid item>
+          <Box component="div">
+            <img src={image[i]} style={styles.image} alt="Thumb" />
+          </Box>
+        </Grid>
+      );
+    }
+    return box[1];
   };
 
   const goBack = () => {
@@ -104,9 +113,14 @@ export default function StoreImgView() {
               </Box>
             )}
             {image && !previewImage && (
-              <Box component="div">
-                <img src={image} style={styles.image} alt="Thumb" />
-              </Box>
+              <Grid container spacing={1}>
+                <>
+                  <Getimage />
+                </>
+              </Grid>
+              //   <Box component="div">
+              //     <img src={image} style={styles.image} alt="Thumb" />
+              //   </Box>
             )}
             <Button
               sx={{ marginBottom: 3 }}
