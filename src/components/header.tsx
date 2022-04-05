@@ -62,6 +62,10 @@ export default function Header({
     navigate("/store");
   };
 
+  const goManage = () => {
+    navigate("/manage");
+  };
+
   const goProfile = () => {
     navigate("/profile");
   };
@@ -140,6 +144,20 @@ export default function Header({
                   >
                     <Typography sx={{ color: Themes.white }}>
                       แก้ไขร้านค้า
+                    </Typography>
+                  </Link>
+                </Grid>
+              )}
+
+              {type === "admin" && (
+                <Grid item xs={1.1}>
+                  <Link
+                    onClick={goManage}
+                    sx={{ cursor: "pointer" }}
+                    underline="none"
+                  >
+                    <Typography sx={{ color: Themes.white }}>
+                      จัดการข้อมูล
                     </Typography>
                   </Link>
                 </Grid>

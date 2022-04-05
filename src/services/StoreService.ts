@@ -1,5 +1,8 @@
 import { httpClient } from "../http/client";
-import StoreModel, { ImageStore } from "../models/StoreModel";
+import StoreModel, {
+  ImageStore,
+  StoreImgViewModel,
+} from "../models/StoreModel";
 
 // const getLogin = (email: string | null, password: string | null) => {
 //   return httpClient
@@ -72,6 +75,23 @@ const uploadImageStore = (data: File, token: string | null) => {
   });
 };
 
+const uploadImageStoreView = (data: File, token: string | null) => {
+  var formData = new FormData();
+  formData.append("img", data);
+
+  return httpClient.post<ImageStore>(`/storeview/uploadimgView/${token}/${token}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+const getImgStoreViewId = (token: string | null) => {
+  return httpClient
+    .get<StoreImgViewModel>(`/storeview/imgView/${token}`)
+    .then((res) => res.data);
+};
+
 // const UpdateProfile = (
 //   id: string | null,
 //   name: string | undefined,
@@ -100,6 +120,8 @@ const StoreService = {
   getStoreId,
   UpdateStoreId,
   uploadImageStore,
+  getImgStoreViewId,
+  uploadImageStoreView,
 };
 
 export default StoreService;

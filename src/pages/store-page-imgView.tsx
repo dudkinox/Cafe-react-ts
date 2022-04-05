@@ -18,7 +18,7 @@ import StoreService from "../services/StoreService";
 
 const theme = createTheme();
 
-export default function StorePage() {
+export default function StoreImgView() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
@@ -43,11 +43,7 @@ export default function StorePage() {
   };
 
   const goBack = () => {
-    navigate("/");
-  };
-
-  const goAddView = () => {
-    navigate("/store/addimgView");
+    navigate("/store");
   };
 
   const imageChange = (e: { target: { files: string | any[] } }) => {
@@ -57,32 +53,25 @@ export default function StorePage() {
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
     setIsLoading(true);
+    event.preventDefault();
     if (previewImage) {
-      StoreService.uploadImageStore(previewImage, token).then(
-        async (url): Promise<void> => {}
-      );
-    }
-    StoreService.UpdateStoreId(token, name, address, time, tel, web, map).then(
-      (res) => {
-        if (res.data === "อัพเดตข้อมูลแล้ว") {
+      StoreService.uploadImageStoreView(previewImage, token).then(
+        async (url): Promise<void> => {
           setIsLoading(false);
         }
-      }
-    );
+      );
+    } else {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     setIsLoading(true);
-    StoreService.getStoreId(token).then((res) => {
-      setName(res.name);
-      setAddress(res.address);
-      setTime(res.open);
-      setTel(res.tel);
-      setWeb(res.website);
-      setLinkmap(res.latitude);
-      setImage(res.image);
+    StoreService.getImgStoreViewId(token).then((res) => {
+      if (res.image.length !== 0) {
+        setImage(res.image);
+      }
       setIsLoading(false);
     });
   }, []);
@@ -131,77 +120,9 @@ export default function StorePage() {
               <input type="file" hidden onChange={imageChange as any} />
             </Button>
             <Typography component="h1" variant="h5">
-              แก้ไขร้านคาเฟ่
+              เพิ่มรูปบรรยากาศ
             </Typography>
             <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={name === "" ? true : false}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="ชื่อร้าน"
-                    value={name}
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={address === "" ? true : false}
-                    onChange={(e) => setAddress(e.target.value)}
-                    placeholder="ข้อมูลร้าน"
-                    value={address}
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={time === "" ? true : false}
-                    onChange={(e) => setTime(e.target.value)}
-                    placeholder="เวลาทำการ"
-                    value={time}
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={tel === "" ? true : false}
-                    onChange={(e) => setTel(e.target.value)}
-                    placeholder="เบอร์โทรติดต่อ"
-                    value={tel}
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={web === "" ? true : false}
-                    onChange={(e) => setWeb(e.target.value)}
-                    placeholder="เว็บไซต์"
-                    value={web}
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    error={map === "" ? true : false}
-                    onChange={(e) => setLinkmap(e.target.value)}
-                    placeholder="Link GoogleMap"
-                    value={map}
-                    type="text"
-                  />
-                </Grid>
-              </Grid>
               <Button
                 type="submit"
                 fullWidth
@@ -210,16 +131,6 @@ export default function StorePage() {
                 color="success"
               >
                 อัพเดต
-              </Button>
-              <Button
-                type="button"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                color="info"
-                onClick={goAddView}
-              >
-                เพิ่มรูปบรรยากาศ
               </Button>
               <Button
                 type="button"

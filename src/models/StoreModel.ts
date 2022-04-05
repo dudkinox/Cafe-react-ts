@@ -16,3 +16,9 @@ export default interface StoreModel {
 export interface ImageStore {
   image: string;
 }
+
+export interface StoreImgViewModel {
+  id: string;
+  idstore: string;
+  image: any[];
+}

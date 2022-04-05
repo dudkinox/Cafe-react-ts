@@ -18,7 +18,7 @@ import StoreService from "../services/StoreService";
 
 const theme = createTheme();
 
-export default function StorePage() {
+export default function ManagePage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
@@ -44,10 +44,6 @@ export default function StorePage() {
 
   const goBack = () => {
     navigate("/");
-  };
-
-  const goAddView = () => {
-    navigate("/store/addimgView");
   };
 
   const imageChange = (e: { target: { files: string | any[] } }) => {
@@ -210,16 +206,6 @@ export default function StorePage() {
                 color="success"
               >
                 อัพเดต
-              </Button>
-              <Button
-                type="button"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                color="info"
-                onClick={goAddView}
-              >
-                เพิ่มรูปบรรยากาศ
               </Button>
               <Button
                 type="button"

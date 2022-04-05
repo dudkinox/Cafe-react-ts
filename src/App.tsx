@@ -6,11 +6,13 @@ import Header from "./components/header";
 import Loading from "./components/loading";
 import StoreModel from "./models/StoreModel";
 import CommentPage from "./pages/comment-page";
+import ManagePage from "./pages/manage-page";
 import Profile from "./pages/profile";
 import Body from "./pages/review-page";
 import SignIn from "./pages/sign-in";
 import SignUp from "./pages/sign-up";
 import StorePage from "./pages/store-page";
+import StoreImgView from "./pages/store-page-imgView";
 import AccountService from "./services/AccountService";
 import StoreService from "./services/StoreService";
 
@@ -53,6 +55,8 @@ function App() {
             <Route path="/signUp" element={<SignUp />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/store" element={<StorePage />}></Route>
+            <Route path="/store/addimgView" element={<StoreImgView />}></Route>
+            <Route path="/manage" element={<ManagePage />}></Route>
             <Route path="/review/:id" element={<CommentPage />}></Route>
           </Routes>
           <Footer />
