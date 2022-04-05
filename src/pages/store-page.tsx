@@ -45,18 +45,19 @@ export default function StorePage1() {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    StoreService.uploadImageStore(previewImage, token).then(
-      async (url): Promise<void> => {}
+    setIsLoading(true);
+    if (previewImage) {
+      StoreService.uploadImageStore(previewImage, token).then(
+        async (url): Promise<void> => {}
+      );
+    }
+    StoreService.UpdateStoreId(token, name, address, time, tel, web, map).then(
+      (res) => {
+        if (res.data === "อัพเดตข้อมูลแล้ว") {
+          setIsLoading(false);
+        }
+      }
     );
-
-    // setIsLoading(true);
-    // StoreService.UpdateStoreId(token, name, address, time, tel, web, map).then(
-    //   (res) => {
-    //     if (res.data === "อัพเดตข้อมูลแล้ว") {
-    //       setIsLoading(false);
-    //     }
-    //   }
-    // );
   };
 
   useEffect(() => {
@@ -118,13 +119,6 @@ export default function StorePage1() {
                 <img src={image} alt="Thumb" />
               </Box>
             )}
-            {/* {previewImage !== "" ? (
-              <Box component="div">
-                <img src={previewImage} />
-              </Box>
-            ) : (
-              <></>
-            )} */}
             <Typography component="h1" variant="h5">
               แก้ไขร้านคาเฟ่
             </Typography>
