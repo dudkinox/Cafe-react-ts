@@ -42,7 +42,7 @@ export default function ConnTent() {
         {listStore?.map((store) => (
           <Grid item xs={4}>
             <CardCoffee
-              onClick={() => goToReview("1")}
+              onClick={() => goToReview(store.idstore)}
               nameStore={store.name === "" ? "ยังไม่มีข้อมูล" : store.name}
               imageStore={
                 store.image === "" ? "https://bit.ly/3LH2Yoo" : store.image
