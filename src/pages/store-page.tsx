@@ -47,7 +47,7 @@ export default function StorePage() {
   };
 
   const goAddView = () => {
-    navigate("/store/addimgView");
+    navigate("/store/addImgView");
   };
 
   const imageChange = (e: { target: { files: string | any[] } }) => {

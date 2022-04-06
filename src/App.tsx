@@ -23,6 +23,7 @@ function App() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isCheckStore, setIsCheckStore] = useState<StoreModel>();
+  const getURL = window.location.pathname;
 
   useEffect(() => {
     setIsLoading(true);
@@ -36,26 +37,31 @@ function App() {
       setIsLoading(false);
     });
   }, [token]);
+
   if (isLoading) {
     return <Loading />;
   } else {
     return (
       <>
         <BrowserRouter>
-          <Header
-            email={email}
-            name={name}
-            type={type}
-            token={token}
-            checkStore={isCheckStore}
-          />
+          {getURL !== "/signIn" ? (
+            <Header
+              email={email}
+              name={name}
+              type={type}
+              token={token}
+              checkStore={isCheckStore}
+            />
+          ) : (
+            <></>
+          )}
           <Routes>
             <Route path="/" element={<Body />}></Route>
             <Route path="/signIn" element={<SignIn />}></Route>
             <Route path="/signUp" element={<SignUp />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/store" element={<StorePage />}></Route>
-            <Route path="/store/addimgView" element={<StoreImgView />}></Route>
+            <Route path="/store/addImgView" element={<StoreImgView />}></Route>
             <Route path="/manage" element={<ManagePage />}></Route>
             <Route path="/review/:id" element={<CommentPage />}></Route>
           </Routes>
