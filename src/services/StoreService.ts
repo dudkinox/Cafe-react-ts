@@ -111,6 +111,10 @@ const closeStore = (id: string | null) => {
   return httpClient.delete<string>(`/store/delete/${id}`);
 };
 
+const getAllStore = () => {
+  return httpClient.get<StoreModel[] | null>("/store").then((res) => res.data);
+};
+
 // const UpdateProfile = (
 //   id: string | null,
 //   name: string | undefined,
@@ -144,6 +148,7 @@ const StoreService = {
   getStoreAll,
   closeStore,
   getComment,
+  getAllStore,
 };
 
 export default StoreService;
