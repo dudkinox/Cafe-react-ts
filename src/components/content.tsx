@@ -41,7 +41,11 @@ export default function ConnTent() {
       <Grid container spacing={3} sx={{ margin: 3 }}>
         {listStore?.map((store) => (
           <Grid item xs={4}>
-            <CardCoffee onClick={() => goToReview("1")} />
+            <CardCoffee
+              onClick={() => goToReview("1")}
+              nameStore={store.name}
+              imageStore={store.image}
+            />
           </Grid>
         ))}
       </Grid>
