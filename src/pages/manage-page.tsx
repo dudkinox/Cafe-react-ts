@@ -92,7 +92,6 @@ export default function ManagePage() {
     });
     StoreService.getStoreAll().then((res: any) => {
       setStoreData(res);
-      console.log(res);
       setIsLoading(false);
     });
   }, []);

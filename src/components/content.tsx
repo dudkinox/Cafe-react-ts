@@ -16,7 +16,6 @@ export default function ConnTent() {
 
   useEffect(() => {
     StoreService.getAllStore().then((res) => {
-      console.log(res);
       setListStore(res);
     });
   }, []);

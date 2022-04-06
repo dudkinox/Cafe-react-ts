@@ -19,8 +19,16 @@ import SimpleImageSlider from "react-simple-image-slider";
 import { useEffect, useState } from "react";
 import StoreService from "../services/StoreService";
 import Rating from "@mui/material/Rating";
+import { useParams } from "react-router-dom";
+
+type CommentPageParams = {
+  id: string;
+};
 
 export default function CommentPage() {
+  const { id } = useParams<CommentPageParams>();
+  console.log(id);
+
   const [image, setImage] = useState<any>([]);
   const [value, setValue] = React.useState<number | null>(0);
   const [showcomment, setShowComment] = useState(false);
@@ -28,7 +36,6 @@ export default function CommentPage() {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(previewImage);
   };
 
   const showBox = () => {
@@ -128,7 +135,6 @@ export default function CommentPage() {
                         name="simple-controlled"
                         value={value}
                         onChange={(event, newValue) => {
-                          console.log(newValue);
                           setValue(newValue);
                         }}
                       />
