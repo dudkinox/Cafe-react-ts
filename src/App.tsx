@@ -23,7 +23,7 @@ function App() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isCheckStore, setIsCheckStore] = useState<StoreModel>();
-  const getURL = window.location.pathname;
+  const path = window.location.pathname;
 
   useEffect(() => {
     setIsLoading(true);
@@ -44,7 +44,7 @@ function App() {
     return (
       <>
         <BrowserRouter>
-          {getURL !== "/signIn" ? (
+          {path !== "/signIn" ? (
             <Header
               email={email}
               name={name}

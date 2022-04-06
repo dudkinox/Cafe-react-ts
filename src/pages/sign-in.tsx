@@ -45,7 +45,7 @@ export default function SignIn() {
           setTimeout(() => {
             if (res.verify) {
               localStorage.setItem("token", res.id);
-              navigate("/");
+              window.location.href = "/";
             }
           }, 1000);
         });

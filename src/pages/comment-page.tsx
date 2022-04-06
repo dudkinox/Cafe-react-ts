@@ -107,22 +107,10 @@ export default function CommentPage() {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item>
-                <Card>
-                  <CardContent>detail</CardContent>
-                </Card>
-              </Grid>
             </Grid>
           </CardContent>
           <Card>
             <CardContent>
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                ส่วน comment
-              </Typography>
               {showcomment && (
                 <>
                   <Box
