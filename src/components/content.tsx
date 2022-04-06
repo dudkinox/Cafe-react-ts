@@ -43,8 +43,14 @@ export default function ConnTent() {
           <Grid item xs={4}>
             <CardCoffee
               onClick={() => goToReview("1")}
-              nameStore={store.name}
-              imageStore={store.image}
+              nameStore={store.name === "" ? "ยังไม่มีข้อมูล" : store.name}
+              imageStore={
+                store.image === "" ? "https://bit.ly/3LH2Yoo" : store.image
+              }
+              timeStore={store.open === "" ? "ยังไม่มีข้อมูล" : store.open}
+              address={store.address === "" ? "ยังไม่มีข้อมูล" : store.address}
+              tel={store.tel === "" ? "ยังไม่มีข้อมูล" : store.tel}
+              idStore={store.idstore === "" ? "ยังไม่มีข้อมูล" : store.idstore}
             />
           </Grid>
         ))}
