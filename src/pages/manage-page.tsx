@@ -4,8 +4,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Themes } from "../themes/color";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "../components/loading";
 import Tab from "@mui/material/Tab";
@@ -59,9 +57,7 @@ function a11yProps(index: number) {
 }
 
 export default function ManagePage() {
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const token = localStorage.getItem("token");
   const [data, setDataUser] = useState<any>([]);
   const [storeData, setStoreData] = useState<any>([]);
   const [value, setValue] = React.useState(0);
@@ -172,7 +168,7 @@ export default function ManagePage() {
                           <TableCell align="right">{item.name}</TableCell>
                           <TableCell align="right">{item.tel}</TableCell>
                           <TableCell align="right">
-                            {item.status == true ? "ปกติ" : "ปิดบัญชี"}
+                            {item.status === true ? "ปกติ" : "ปิดบัญชี"}
                           </TableCell>
                           <TableCell align="right">{item.type}</TableCell>
                           <TableCell align="right">
@@ -221,7 +217,7 @@ export default function ManagePage() {
                           <TableCell align="right">{item.website}</TableCell>
                           <TableCell align="right">{item.latitude}</TableCell>
                           <TableCell align="right">
-                            {item.status == true ? "เปิด" : "ปิดทำการ"}
+                            {item.status === true ? "เปิด" : "ปิดทำการ"}
                           </TableCell>
                           <TableCell align="right">
                             <DeleteOutlined
