@@ -1,5 +1,6 @@
 import { httpClient } from "../http/client";
 import StoreModel, {
+  CommentModel,
   ImageStore,
   StoreImgViewModel,
 } from "../models/StoreModel";
@@ -96,12 +97,17 @@ const getImgStoreViewId = (token: string | null) => {
     .then((res) => res.data);
 };
 
+const getComment = (token: string | null) => {
+  return httpClient
+    .get<CommentModel>(`/review/comment/${token}`)
+    .then((res) => res.data);
+};
+
 const getStoreAll = () => {
   return httpClient.get<StoreModel>("/store").then((res) => res.data);
 };
 
 const closeStore = (id: string | null) => {
-
   return httpClient.delete<string>(`/store/delete/${id}`);
 };
 
@@ -137,6 +143,7 @@ const StoreService = {
   uploadImageStoreView,
   getStoreAll,
   closeStore,
+  getComment,
 };
 
 export default StoreService;

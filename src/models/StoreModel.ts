@@ -22,3 +22,16 @@ export interface StoreImgViewModel {
   idstore: string;
   image: any[];
 }
+
+export interface CommentModel {
+  data: CommentDatum[];
+  idstore: string;
+}
+
+export interface CommentDatum {
+  comment: string;
+  star: number;
+  id: string;
+  img?: string[];
+  image?: string[];
+}
