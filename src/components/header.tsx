@@ -39,7 +39,7 @@ export default function Header({
 
   const goToSignIn = () => {
     if (type === undefined) {
-      navigate("/signIn");
+      window.location.href = "/signIn";
     } else {
       setIsProfile(true);
     }
@@ -55,7 +55,7 @@ export default function Header({
 
   const goLogout = () => {
     localStorage.removeItem("token");
-    navigate("/signIn");
+    window.location.href = "/signIn";
   };
 
   const goStore = () => {
