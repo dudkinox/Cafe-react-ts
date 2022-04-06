@@ -27,8 +27,6 @@ type CommentPageParams = {
 
 export default function CommentPage() {
   const { id } = useParams<CommentPageParams>();
-  console.log(id);
-
   const [image, setImage] = useState<any>([]);
   const [value, setValue] = React.useState<number | null>(0);
   const [showcomment, setShowComment] = useState(false);
@@ -53,10 +51,12 @@ export default function CommentPage() {
   };
 
   useEffect(() => {
-    StoreService.getComment("jEVvvw8u7P7wsu87u2l6").then((res) => {
+    StoreService.getComment(`${id}`).then((res) => {
+      console.log(res.data);
+
       setImage(res.data);
     });
-  }, []);
+  }, [id]);
 
   return (
     <>

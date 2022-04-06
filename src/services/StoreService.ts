@@ -97,7 +97,7 @@ const getImgStoreViewId = (token: string | null) => {
     .then((res) => res.data);
 };
 
-const getComment = (token: string | null) => {
+const getComment = (token: string) => {
   return httpClient
     .get<CommentModel>(`/review/comment/${token}`)
     .then((res) => res.data);
