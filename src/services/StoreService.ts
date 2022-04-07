@@ -91,6 +91,37 @@ const uploadImageStoreView = (data: File, token: string | null) => {
   );
 };
 
+const uploadImgComment = (data: FileList, token: string | null) => {
+  var formData = new FormData();
+  const arr = Array.from(data);
+  for (let file of arr) {
+    formData.append("img", file);
+  }
+
+  return httpClient.post<string>(`/review/commentImg/${token}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+const CommentReview = (
+  tokenstore: string | undefined | null,
+  tokenuser: string | undefined | null,
+  comment: string | undefined | null,
+  image: string | undefined | null,
+  star: number | undefined | null
+) => {
+  const data = {
+    comment: comment,
+    id: tokenuser,
+    image: image,
+    star: star,
+  };
+
+  return httpClient.put<string>(`/review/comment/${tokenstore}`, data);
+};
+
 const getImgStoreViewId = (token: string | null) => {
   return httpClient
     .get<StoreImgViewModel>(`/storeview/imgView/${token}`)
@@ -149,6 +180,8 @@ const StoreService = {
   closeStore,
   getComment,
   getAllStore,
+  uploadImgComment,
+  CommentReview,
 };
 
 export default StoreService;

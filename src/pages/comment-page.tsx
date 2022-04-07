@@ -27,13 +27,22 @@ type CommentPageParams = {
 
 export default function CommentPage() {
   const { id } = useParams<CommentPageParams>();
+  const token = localStorage.getItem("token");
   const [image, setImage] = useState<any>([]);
-  const [value, setValue] = React.useState<number | null>(0);
+  const [rating, setRating] = React.useState<number | null>(0);
   const [showcomment, setShowComment] = useState(false);
   const [previewImage, setPreviewImage] = useState<any>([]);
+  const [comment, setComment] = useState("");
+  const [showlimit, setShowLimit] = useState(false);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    StoreService.uploadImgComment(previewImage, token).then((res) => {
+      console.log(res.data);
+      StoreService.CommentReview(id, token, comment, res.data, rating).then(
+        (res) => {}
+      );
+    });
   };
 
   const showBox = () => {
@@ -46,14 +55,18 @@ export default function CommentPage() {
 
   const imageChange = (e: { target: { files: string | any[] } }) => {
     if (e.target.files && e.target.files.length > 0) {
-      setPreviewImage(e.target.files[0]);
+      if (e.target.files.length < 6) {
+        setPreviewImage(e.target.files);
+        setShowLimit(false);
+      } else {
+        setPreviewImage([]);
+        setShowLimit(true);
+      }
     }
   };
 
   useEffect(() => {
     StoreService.getComment(`${id}`).then((res) => {
-      console.log(res.data);
-
       setImage(res.data);
     });
   }, [id]);
@@ -133,19 +146,24 @@ export default function CommentPage() {
                     >
                       <Rating
                         name="simple-controlled"
-                        value={value}
+                        value={rating}
                         onChange={(event, newValue) => {
-                          setValue(newValue);
+                          setRating(newValue);
                         }}
                       />
                     </Box>
-                    <SimpleImageSlider
-                      width={300}
-                      height={300}
-                      images={previewImage}
-                      showBullets={true}
-                      showNavs={true}
-                    />
+                    {showlimit && (
+                      <Typography>จำกัดรูปภาพไม่เกิน 5 รูป</Typography>
+                    )}
+                    {/* {previewImage.length !== 0 && !showlimit && (
+                      <SimpleImageSlider
+                        width={300}
+                        height={300}
+                        images={previewImage}
+                        showBullets={true}
+                        showNavs={true}
+                      />
+                    )} */}
                     <Button
                       sx={{ marginBottom: 3 }}
                       variant="contained"
@@ -153,12 +171,14 @@ export default function CommentPage() {
                     >
                       Upload File
                       <input
+                        accept=".jpg,.jpeg,.png"
                         type="file"
                         hidden
                         multiple
                         onChange={imageChange as any}
                       />
                     </Button>
+
                     <Grid container spacing={2}>
                       <Grid item xs={8}>
                         <TextField
@@ -166,8 +186,8 @@ export default function CommentPage() {
                           label="เล่าประสบการณ์ที่ได้รับจากสถานที่นี้โดยละเอียด"
                           multiline
                           rows="5"
-                          // value={this.state.multiline}
-                          // onChange={this.handleChange("multiline")}
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
                           // className={classes.textField}
                           margin="normal"
                           variant="outlined"
@@ -216,16 +236,7 @@ export default function CommentPage() {
                     sx={{
                       "& > legend": { mt: 2 },
                     }}
-                  >
-                    {/* <Rating
-                            name="simple-controlled"
-                            value={value}
-                            onChange={(event, newValue) => {
-                              console.log(newValue);
-                              setValue(newValue);
-                            }}
-                          /> */}
-                  </Box>
+                  ></Box>
                   <Typography sx={{ color: "black" }}>เขียนคอมเม้น</Typography>
                 </Link>
               </Typography>
