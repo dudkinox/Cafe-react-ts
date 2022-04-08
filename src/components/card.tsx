@@ -19,6 +19,7 @@ interface CardCoffeeProps {
   address: string;
   tel: string;
   idStore: string;
+  map: string;
 }
 
 export default function CardCoffee({
@@ -29,7 +30,11 @@ export default function CardCoffee({
   address,
   tel,
   idStore,
+  map,
 }: CardCoffeeProps) {
+  const handleMap = () => {
+    window.open(map, "_blank");
+  };
   return (
     <Card sx={{ maxWidth: 345 }} style={{ cursor: "pointer" }}>
       <CardHeader
@@ -60,7 +65,7 @@ export default function CardCoffee({
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="share">
+        <IconButton aria-label="share" onClick={handleMap}>
           <LocationOnIcon />
         </IconButton>
       </CardActions>

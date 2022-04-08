@@ -50,6 +50,7 @@ export default function ConnTent() {
               address={store.address === "" ? "ยังไม่มีข้อมูล" : store.address}
               tel={store.tel === "" ? "ยังไม่มีข้อมูล" : store.tel}
               idStore={store.idstore === "" ? "ยังไม่มีข้อมูล" : store.idstore}
+              map={store.latitude === "" ? "ยังไม่มีข้อมูล" : store.latitude}
             />
           </Grid>
         ))}
