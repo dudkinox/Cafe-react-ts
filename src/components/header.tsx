@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
-import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
 import { useNavigate } from "react-router-dom";
 import { Themes } from "../themes/color";
 import ModalAlert from "./Modal";
@@ -186,7 +185,6 @@ export default function Header({
               justifyContent="flex-end"
               alignItems="center"
             >
-              {" "}
               <Grid item xs={2}>
                 <IconButton size="large" edge="start" aria-label="menu" />
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
