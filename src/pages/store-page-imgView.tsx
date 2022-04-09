@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PersonIcon from "@mui/icons-material/Person";
 import { Themes } from "../themes/color";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loading from "../components/loading";
 import StoreService from "../services/StoreService";
 
@@ -58,7 +58,7 @@ export default function StoreImgView() {
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     setIsLoading(true);
     StoreService.getImgStoreViewId(token).then((res) => {
       if (res.image.length !== 0) {
@@ -67,8 +67,6 @@ export default function StoreImgView() {
       setIsLoading(false);
     });
   }, [token]);
-
-  useEffect(() => {}, []);
 
   if (isLoading) {
     return <Loading />;
