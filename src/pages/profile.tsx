@@ -27,7 +27,7 @@ export default function Profile() {
   const [passwordOld, setPasswordOld] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [listAccount, setListAccount] = useState<AccountModel>();
-  const [isLogin, setIsLogin] = useState();
+  var isLogin;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [tel, setTel] = useState("");
