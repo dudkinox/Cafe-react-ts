@@ -67,6 +67,7 @@ export default function ManagePage() {
   };
 
   useEffect(() => {
+    console.log("manage-page.tsx");
     setIsLoading(true);
     AccountService.getUserAll().then((res: any) => {
       var new_result = [];

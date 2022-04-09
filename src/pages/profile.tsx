@@ -88,6 +88,7 @@ export default function Profile() {
   };
 
   useEffect(() => {
+    console.log("profile");
     setIsLoading(true);
     AccountService.getFindById(token).then((res) => {
       setListAccount(res);

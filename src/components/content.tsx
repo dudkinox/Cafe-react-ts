@@ -15,6 +15,8 @@ export default function ConnTent() {
   };
 
   useEffect(() => {
+    console.log("content.tsx");
+
     StoreService.getAllStore().then((res) => {
       setListStore(res);
     });
@@ -39,7 +41,7 @@ export default function ConnTent() {
       </Grid>
       <Grid container spacing={3} sx={{ margin: 3 }}>
         {listStore?.map((store) => (
-          <Grid item xs={4}>
+          <Grid item xs={4} key={store.id}>
             <CardCoffee
               onClick={() => goToReview(store.idstore)}
               nameStore={store.name === "" ? "ยังไม่มีข้อมูล" : store.name}

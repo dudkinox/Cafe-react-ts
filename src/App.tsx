@@ -26,6 +26,8 @@ function App() {
   const path = window.location.pathname;
 
   useEffect(() => {
+    console.log("App.tsx");
+
     setIsLoading(true);
     AccountService.getFindById(token).then((res) => {
       setType(res.type);

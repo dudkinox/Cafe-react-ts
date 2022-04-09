@@ -59,6 +59,7 @@ export default function StoreImgView() {
   };
 
   React.useEffect(() => {
+    console.log("store-page-imgView.tsx");
     setIsLoading(true);
     StoreService.getImgStoreViewId(token).then((res) => {
       if (res.image.length !== 0) {

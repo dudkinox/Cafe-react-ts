@@ -66,6 +66,7 @@ export default function CommentPage() {
   };
 
   useEffect(() => {
+    console.log("comment-page.tsx");
     StoreService.getComment(`${id}`).then((res) => {
       setImage(res.data);
     });

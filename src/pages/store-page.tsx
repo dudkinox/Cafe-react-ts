@@ -72,6 +72,7 @@ export default function StorePage() {
   };
 
   useEffect(() => {
+    console.log("store-page.tsx");
     setIsLoading(true);
     StoreService.getStoreId(token).then((res) => {
       setName(res.name);
