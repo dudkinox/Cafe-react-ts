@@ -2,7 +2,6 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -13,9 +12,7 @@ import { Themes } from "../themes/color";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "../components/loading";
-import Alerts from "../components/alert";
 import StoreService from "../services/StoreService";
-import { StoreImgViewModel } from "../models/StoreModel";
 
 const theme = createTheme();
 
@@ -25,7 +22,6 @@ export default function StoreImgView() {
   const token = localStorage.getItem("token");
   const [image, setImage] = useState<any>();
   const [previewImage, setPreviewImage] = useState<any>();
-  const [isbox, setBox] = useState([]);
 
   const styles = {
     image: { maxWidth: "100%", maxHeight: 320 },
@@ -36,20 +32,6 @@ export default function StoreImgView() {
       color: "white",
       border: "none",
     },
-  };
-
-  const Getimage = () => {
-    const box = [];
-    for (let i = 0; i < image.length; i++) {
-      box.push(
-        <Grid item>
-          <Box component="div">
-            <img src={image[i]} style={styles.image} alt="Thumb" />
-          </Box>
-        </Grid>
-      );
-    }
-    return box[1];
   };
 
   const goBack = () => {
@@ -84,7 +66,7 @@ export default function StoreImgView() {
       }
       setIsLoading(false);
     });
-  }, []);
+  }, [token]);
 
   useEffect(() => {}, []);
 
@@ -123,9 +105,6 @@ export default function StoreImgView() {
                   ))}
                 </>
               </Grid>
-              //   <Box component="div">
-              //     <img src={image} style={styles.image} alt="Thumb" />
-              //   </Box>
             )}
             <Button
               sx={{ marginBottom: 3 }}
