@@ -5,12 +5,6 @@ import StoreModel, {
   StoreImgViewModel,
 } from "../models/StoreModel";
 
-// const getLogin = (email: string | null, password: string | null) => {
-//   return httpClient
-//     .get<AccountModel>(`/account/${email}/${password}`)
-//     .then((res) => res.data);
-// };
-
 const getStoreId = (token: string | null) => {
   return httpClient.get<StoreModel>(`/store/${token}`).then((res) => res.data);
 };

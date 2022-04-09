@@ -13,7 +13,6 @@ import { Themes } from "../themes/color";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "../components/loading";
-import Alerts from "../components/alert";
 import StoreService from "../services/StoreService";
 
 const theme = createTheme();
@@ -85,7 +84,7 @@ export default function StorePage() {
       setImage(res.image);
       setIsLoading(false);
     });
-  }, []);
+  }, [token]);
 
   useEffect(() => {}, []);
 

@@ -155,15 +155,6 @@ export default function CommentPage() {
                     {showlimit && (
                       <Typography>จำกัดรูปภาพไม่เกิน 5 รูป</Typography>
                     )}
-                    {/* {previewImage.length !== 0 && !showlimit && (
-                      <SimpleImageSlider
-                        width={300}
-                        height={300}
-                        images={previewImage}
-                        showBullets={true}
-                        showNavs={true}
-                      />
-                    )} */}
                     <Button
                       sx={{ marginBottom: 3 }}
                       variant="contained"
@@ -250,7 +241,7 @@ export default function CommentPage() {
                       key={item.idstore}
                     >
                       <Grid item>
-                        <Avatar alt="Remy Sharp" />
+                        <Avatar alt="Rems Sharp" />
                       </Grid>
                       <Grid justifyContent="left" item xs zeroMinWidth>
                         <h4 style={{ margin: 0, textAlign: "left" }}>
