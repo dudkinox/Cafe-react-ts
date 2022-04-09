@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PersonIcon from "@mui/icons-material/Person";
 import { Themes } from "../themes/color";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../components/loading";
 import StoreService from "../services/StoreService";
 
@@ -72,7 +71,7 @@ export default function StorePage() {
     );
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     setIsLoading(true);
     StoreService.getStoreId(token).then((res) => {
       setName(res.name);
