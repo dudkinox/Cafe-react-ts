@@ -15,8 +15,6 @@ export default function ConnTent() {
   };
 
   useEffect(() => {
-    console.log("content.tsx");
-
     StoreService.getAllStore().then((res) => {
       setListStore(res);
     });
