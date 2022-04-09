@@ -207,12 +207,6 @@ export default function Header({
                   หน้าแรก
                 </Button>
               </Grid>
-              <Grid item xs={2}>
-                <Button sx={{ color: "#000", fontSize: "20px" }}>
-                  <RestaurantMenuOutlinedIcon sx={{ fontSize: 45 }} />
-                  รีวิวร้านอาหาร
-                </Button>
-              </Grid>
               <Grid item xs={4} />
             </Grid>
           </Toolbar>
