@@ -5,7 +5,7 @@ import StoreModel, {
   StoreImgViewModel,
 } from "../models/StoreModel";
 
-const getStoreId = (token: string | null) => {
+const getStoreId = (token: string | null | undefined) => {
   return httpClient.get<StoreModel>(`/store/${token}`).then((res) => res.data);
 };
 
@@ -116,7 +116,7 @@ const CommentReview = (
   return httpClient.put<string>(`/review/comment/${tokenstore}`, data);
 };
 
-const getImgStoreViewId = (token: string | null) => {
+const getImgStoreViewId = (token: string | null | undefined) => {
   return httpClient
     .get<StoreImgViewModel>(`/storeview/imgView/${token}`)
     .then((res) => res.data);
@@ -139,29 +139,6 @@ const closeStore = (id: string | null) => {
 const getAllStore = () => {
   return httpClient.get<StoreModel[] | null>("/store").then((res) => res.data);
 };
-
-// const UpdateProfile = (
-//   id: string | null,
-//   name: string | undefined,
-//   email: string | undefined,
-//   idStore: string | undefined,
-//   tel: string | undefined,
-//   type: string | undefined,
-//   pass: string | undefined,
-//   status: boolean | undefined
-// ) => {
-//   const data = {
-//     email: email,
-//     id_store: idStore,
-//     name: name,
-//     tel: tel,
-//     type: type,
-//     password: pass,
-//     status: status,
-//   };
-
-//   return httpClient.put<AccountModel>(`/account/${id}`, data);
-// };
 
 const StoreService = {
   createStore,

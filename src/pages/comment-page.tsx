@@ -14,12 +14,12 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
 import SimpleImageSlider from "react-simple-image-slider";
 import { useEffect, useState } from "react";
 import StoreService from "../services/StoreService";
 import Rating from "@mui/material/Rating";
 import { useParams } from "react-router-dom";
+import StoreModel, { StoreImgViewModel } from "../models/StoreModel";
 
 type CommentPageParams = {
   id: string;
@@ -34,13 +34,17 @@ export default function CommentPage() {
   const [previewImage, setPreviewImage] = useState<any>([]);
   const [comment, setComment] = useState("");
   const [showlimit, setShowLimit] = useState(false);
+  const [listStore, setListStore] = useState<StoreModel>();
+  const [listViewImage, setListViewImage] = useState<StoreImgViewModel>();
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     StoreService.uploadImgComment(previewImage, token).then((res) => {
       console.log(res.data);
       StoreService.CommentReview(id, token, comment, res.data, rating).then(
-        (res) => {}
+        (res) => {
+          console.log(res.data);
+        }
       );
     });
   };
@@ -66,7 +70,20 @@ export default function CommentPage() {
   };
 
   useEffect(() => {
-    console.log("comment-page.tsx");
+    StoreService.getStoreId(id).then((res) => {
+      setListStore(res);
+    });
+  }, [id]);
+
+  useEffect(() => {
+    StoreService.getImgStoreViewId(id).then((res) => {
+      console.log(res);
+
+      setListViewImage(res);
+    });
+  }, [id]);
+
+  useEffect(() => {
     StoreService.getComment(`${id}`).then((res) => {
       setImage(res.data);
     });
@@ -78,11 +95,11 @@ export default function CommentPage() {
         <Card sx={{ minWidth: 275 }}>
           <CardContent>
             <Typography
-              sx={{ fontSize: 14 }}
+              sx={{ fontSize: 50, textAlign: "center" }}
               color="text.secondary"
               gutterBottom
             >
-              ร้านกาแฟ
+              {listStore?.name}
             </Typography>
             <Grid
               container
@@ -97,32 +114,33 @@ export default function CommentPage() {
                     <Typography variant="h5" component="div">
                       <Box
                         component="img"
-                        sx={{
-                          height: 233,
-                          width: 350,
-                          maxHeight: { xs: 233, md: 167 },
-                          maxWidth: { xs: 350, md: 250 },
-                        }}
+                        sx={{ textAlign: "center" }}
+                        width="500px"
                         alt="The house from the offer."
-                        src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+                        src={listStore?.image}
                       />
                     </Typography>
                   </Grid>
                   <Grid item>
                     <Card>
                       <CardHeader
-                        title="ร้านอาหารดีมาก"
-                        subheader="September 14, 2016"
+                        title="ภาพบรรยากาศ"
+                        subheader={`Open ${listStore?.open}`}
                       />
                       <CardContent>
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
-                        <StarIcon />
-                        <Typography component="span">
-                          &emsp;รีวิวโดย : ชื่อ สกุล
-                        </Typography>
+                        <Paper style={{ padding: "40px 20px" }}>
+                          <>
+                            <Grid justifyContent="left" item xs zeroMinWidth>
+                              <SimpleImageSlider
+                                width={710}
+                                height={300}
+                                images={listViewImage?.image ?? []}
+                                showBullets={true}
+                                showNavs={true}
+                              />
+                            </Grid>
+                          </>
+                        </Paper>
                       </CardContent>
                     </Card>
                   </Grid>
@@ -180,7 +198,6 @@ export default function CommentPage() {
                           rows="5"
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
-                          // className={classes.textField}
                           margin="normal"
                           variant="outlined"
                         />
