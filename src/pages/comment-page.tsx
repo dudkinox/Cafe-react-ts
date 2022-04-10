@@ -20,6 +20,7 @@ import StoreService from "../services/StoreService";
 import Rating from "@mui/material/Rating";
 import { useParams } from "react-router-dom";
 import StoreModel, { StoreImgViewModel } from "../models/StoreModel";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 type CommentPageParams = {
   id: string;
@@ -114,8 +115,7 @@ export default function CommentPage() {
                     <Typography variant="h5" component="div">
                       <Box
                         component="img"
-                        sx={{ textAlign: "center" }}
-                        width="500px"
+                        width="100vh"
                         alt="The house from the offer."
                         src={listStore?.image}
                       />
@@ -141,6 +141,31 @@ export default function CommentPage() {
                             </Grid>
                           </>
                         </Paper>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader title="รายละเอียด" />
+                      <CardContent>
+                        <Grid container direction="column" spacing={2}>
+                          <Grid item>
+                            <Typography variant="body2" component="p">
+                              ที่อยู่ : {listStore?.address}
+                            </Typography>
+                            <Typography variant="body2" component="p">
+                              แผนที่ :
+                              <a
+                                href={listStore?.latitude}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                <LocationOnIcon />
+                              </a>
+                            </Typography>
+                            <Typography variant="body2" component="h1">
+                              <h1>คะแนนรีวิวรวม : {listStore?.total_review}</h1>
+                            </Typography>
+                          </Grid>
+                        </Grid>
                       </CardContent>
                     </Card>
                   </Grid>
