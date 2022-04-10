@@ -41,11 +41,8 @@ export default function CommentPage() {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     StoreService.uploadImgComment(previewImage, token).then((res) => {
-      console.log(res.data);
       StoreService.CommentReview(id, token, comment, res.data, rating).then(
-        (res) => {
-          console.log(res.data);
-        }
+        (res) => {}
       );
     });
   };
@@ -78,8 +75,6 @@ export default function CommentPage() {
 
   useEffect(() => {
     StoreService.getImgStoreViewId(id).then((res) => {
-      console.log(res);
-
       setListViewImage(res);
     });
   }, [id]);
@@ -150,6 +145,19 @@ export default function CommentPage() {
                           <Grid item>
                             <Typography variant="body2" component="p">
                               ที่อยู่ : {listStore?.address}
+                            </Typography>
+                            <Typography variant="body2" component="p">
+                              เบอร์โทรติดต่อ : {listStore?.tel}
+                            </Typography>
+                            <Typography variant="body2" component="p">
+                              เว็บไซต์ :
+                              <a
+                                href={listStore?.website}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                {listStore?.website}
+                              </a>
                             </Typography>
                             <Typography variant="body2" component="p">
                               แผนที่ :
