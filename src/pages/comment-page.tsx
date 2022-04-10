@@ -42,7 +42,9 @@ export default function CommentPage() {
     event.preventDefault();
     StoreService.uploadImgComment(previewImage, token).then((res) => {
       StoreService.CommentReview(id, token, comment, res.data, rating).then(
-        (res) => {}
+        () => {
+          window.location.reload();
+        }
       );
     });
   };
@@ -118,10 +120,7 @@ export default function CommentPage() {
                   </Grid>
                   <Grid item>
                     <Card>
-                      <CardHeader
-                        title="ภาพบรรยากาศ"
-                        subheader={`Open ${listStore?.open}`}
-                      />
+                      <CardHeader title="ภาพบรรยากาศ" />
                       <CardContent>
                         <Paper style={{ padding: "40px 20px" }}>
                           <>
@@ -143,6 +142,9 @@ export default function CommentPage() {
                       <CardContent>
                         <Grid container direction="column" spacing={2}>
                           <Grid item>
+                            <Typography variant="body2" component="p">
+                              Open : {listStore?.open}
+                            </Typography>
                             <Typography variant="body2" component="p">
                               ที่อยู่ : {listStore?.address}
                             </Typography>
@@ -189,7 +191,7 @@ export default function CommentPage() {
                     component="form"
                     noValidate
                     onSubmit={onSubmit}
-                    sx={{ mt: 3 }}
+                    sx={{ mt: 3, textAlign: "center" }}
                   >
                     <Box
                       sx={{
@@ -225,6 +227,7 @@ export default function CommentPage() {
                     <Grid container spacing={2}>
                       <Grid item xs={8}>
                         <TextField
+                          sx={{ width: "100%" }}
                           id="outlined-multiline-flexible"
                           label="เล่าประสบการณ์ที่ได้รับจากสถานที่นี้โดยละเอียด"
                           multiline
@@ -268,7 +271,7 @@ export default function CommentPage() {
                 </>
               )}
 
-              <Typography>
+              <Typography sx={{ textAlign: "center" }}>
                 <Link
                   onClick={showBox}
                   sx={{ cursor: "pointer" }}
@@ -279,7 +282,7 @@ export default function CommentPage() {
                       "& > legend": { mt: 2 },
                     }}
                   ></Box>
-                  <Typography sx={{ color: "black" }}>เขียนคอมเม้น</Typography>
+                  <Button variant="contained">Comment</Button>
                 </Link>
               </Typography>
               <Paper style={{ padding: "40px 20px" }}>
