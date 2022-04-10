@@ -51,6 +51,7 @@ export default function StoreImgView() {
       StoreService.uploadImageStoreView(previewImage, token).then(
         async (url): Promise<void> => {
           setIsLoading(false);
+          window.location.reload();
         }
       );
     } else {
