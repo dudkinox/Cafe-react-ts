@@ -306,6 +306,7 @@ export default function EnhancedTable({ title, headCells, rows }: TableProps) {
                         {row.food}
                       </TableCell>
                       <TableCell align="right">{row.photo}</TableCell>
+                      <TableCell align="right">{row.price}</TableCell>
                     </TableRow>
                   );
                 })}

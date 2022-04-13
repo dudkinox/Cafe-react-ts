@@ -17,23 +17,26 @@ import { Themes } from "../themes/color";
 export default function MenuFood() {
   const theme = createTheme();
   const navigate = useNavigate();
+  const [photo, setPhoto] = useState<any>();
   const [name, setName] = useState("");
+  const [price, setPrice] = useState(0);
 
-  function createData(food: string, photo: string): Data {
+  function createData(food: string, photo: string, price: number): Data {
     return {
       food,
       photo,
+      price,
     };
   }
 
   const rows = [
-    createData("ราเมน", "image"),
-    createData("บะหมี่", "image"),
-    createData("คะน้าหมูกรอบ", "image"),
-    createData("ซูชิ", "image"),
-    createData("บะหมี่หยก", "image"),
-    createData("กะเพรา", "image"),
-    createData("ข้าวเปล่า", "image"),
+    createData("ราเมน", "image", 1000),
+    createData("บะหมี่", "image", 1000),
+    createData("คะน้าหมูกรอบ", "image", 1000),
+    createData("ซูชิ", "image", 1000),
+    createData("บะหมี่หยก", "image", 1000),
+    createData("กะเพรา", "image", 1000),
+    createData("ข้าวเปล่า", "image", 1000),
   ];
 
   const headCells: readonly HeadCell[] = [
@@ -49,9 +52,26 @@ export default function MenuFood() {
       disablePadding: false,
       label: "Photo",
     },
+    {
+      id: "price",
+      numeric: true,
+      disablePadding: false,
+      label: "Price",
+    },
   ];
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {};
+  const imageChange = (e: { target: { files: string | any[] } }) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setPhoto(e.target.files[0]);
+    }
+  };
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log(name);
+    console.log(photo);
+    console.log(price);
+  };
+
   const goBack = () => {
     navigate("/store");
   };
@@ -75,18 +95,18 @@ export default function MenuFood() {
           />
           <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <TextField
                   required
                   fullWidth
-                  error={name === "" ? true : false}
-                  onChange={(e) => setName(e.target.value)}
+                  error={photo === "" ? true : false}
+                  onChange={imageChange as any}
                   placeholder="Name food"
-                  value={name}
+                  value={photo}
                   type="file"
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <TextField
                   required
                   fullWidth
@@ -95,6 +115,17 @@ export default function MenuFood() {
                   placeholder="Name food"
                   value={name}
                   type="text"
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  required
+                  fullWidth
+                  error={price <= 0 ? true : false}
+                  onChange={(e) => setPrice(Number(e.target.value))}
+                  placeholder="Price food (THB)"
+                  value={price}
+                  type="number"
                 />
               </Grid>
             </Grid>

@@ -8,4 +8,5 @@ export interface HeadCell {
 export interface Data {
   food: string;
   photo: string;
+  price: number;
 }
