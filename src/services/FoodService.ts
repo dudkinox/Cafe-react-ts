@@ -5,8 +5,8 @@ const getFoodByID = (id: string | null) => {
   return httpClient.get<FoodModel>(`/food/${id}`).then((res) => res.data);
 };
 
-const AccountService = {
+const FoodService = {
   getFoodByID,
 };
 
-export default AccountService;
+export default FoodService;

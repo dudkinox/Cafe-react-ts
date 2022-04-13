@@ -287,6 +287,7 @@ export default function EnhancedTable({ title, headCells, rows }: TableProps) {
                       tabIndex={-1}
                       key={row.food}
                       selected={isItemSelected}
+                      sx={{ textAlign: "center" }}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
@@ -295,6 +296,7 @@ export default function EnhancedTable({ title, headCells, rows }: TableProps) {
                           inputProps={{
                             "aria-labelledby": labelId,
                           }}
+                          sx={{ textAlign: "left !important" }}
                         />
                       </TableCell>
                       <TableCell
@@ -305,8 +307,10 @@ export default function EnhancedTable({ title, headCells, rows }: TableProps) {
                       >
                         {row.food}
                       </TableCell>
-                      <TableCell align="right">{row.photo}</TableCell>
-                      <TableCell align="right">{row.price}</TableCell>
+                      <TableCell>
+                        <img src={row.photo} width="100" alt="img food" />
+                      </TableCell>
+                      <TableCell>{row.price} บาท</TableCell>
                     </TableRow>
                   );
                 })}

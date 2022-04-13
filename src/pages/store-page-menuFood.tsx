@@ -8,10 +8,11 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EnhancedTable from "../components/Table";
 import { Data, HeadCell } from "../models/TableModel";
+import FoodService from "../services/FoodService";
 import { Themes } from "../themes/color";
 
 export default function MenuFood() {
@@ -20,6 +21,8 @@ export default function MenuFood() {
   const [photo, setPhoto] = useState<any>();
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
+  const [rows, setRows] = useState<Data[]>([]);
+  const id = localStorage.getItem("token");
 
   function createData(food: string, photo: string, price: number): Data {
     return {
@@ -29,15 +32,14 @@ export default function MenuFood() {
     };
   }
 
-  const rows = [
-    createData("ราเมน", "image", 1000),
-    createData("บะหมี่", "image", 1000),
-    createData("คะน้าหมูกรอบ", "image", 1000),
-    createData("ซูชิ", "image", 1000),
-    createData("บะหมี่หยก", "image", 1000),
-    createData("กะเพรา", "image", 1000),
-    createData("ข้าวเปล่า", "image", 1000),
-  ];
+  useEffect(() => {
+    FoodService.getFoodByID(id).then((res) => {
+      const data = res.list.map((item) =>
+        createData(item.name, item.image, item.price)
+      );
+      setRows(data);
+    });
+  }, [id]);
 
   const headCells: readonly HeadCell[] = [
     {
