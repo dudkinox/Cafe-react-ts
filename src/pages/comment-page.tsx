@@ -25,6 +25,8 @@ import Rating from "@mui/material/Rating";
 import { useParams } from "react-router-dom";
 import StoreModel, { StoreImgViewModel } from "../models/StoreModel";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import FoodService from "../services/FoodService";
+import { listFood } from "../models/FoodModel";
 
 type CommentPageParams = {
   id: string;
@@ -41,6 +43,7 @@ export default function CommentPage() {
   const [showlimit, setShowLimit] = useState(false);
   const [listStore, setListStore] = useState<StoreModel>();
   const [listViewImage, setListViewImage] = useState<StoreImgViewModel>();
+  const [listFood, setListFood] = useState<listFood[]>([]);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -88,6 +91,12 @@ export default function CommentPage() {
   useEffect(() => {
     StoreService.getComment(`${id}`).then((res) => {
       setImage(res.data);
+    });
+  }, [id]);
+
+  useEffect(() => {
+    FoodService.getFoodByID(id ?? "").then((res) => {
+      setListFood(res.list);
     });
   }, [id]);
 
@@ -181,54 +190,32 @@ export default function CommentPage() {
                           </Grid>
                         </Grid>
                         <Grid container spacing={2}>
-                          <Grid item xs={6}>
-                            <List
-                              sx={{
-                                width: "100%",
-                                bgcolor: "background.paper",
-                              }}
-                            >
-                              <ListItem>
-                                <ListItemAvatar>
-                                  <img
-                                    width={100}
-                                    height={100}
-                                    src="https://top10siam.com/wp-content/uploads/2018/12/TOP-22NOV18-20.01.jpg"
-                                    alt=""
+                          {listFood.map((item, index) => (
+                            <Grid item xs={6}>
+                              <List
+                                sx={{
+                                  width: "100%",
+                                  bgcolor: "background.paper",
+                                }}
+                              >
+                                <ListItem>
+                                  <ListItemAvatar>
+                                    <img
+                                      width={100}
+                                      height={100}
+                                      src={item.image}
+                                      alt=""
+                                    />
+                                  </ListItemAvatar>
+                                  <ListItemText
+                                    sx={{ marginLeft: 3 }}
+                                    primary={item.name}
+                                    secondary={`Price: ${item.price} THB`}
                                   />
-                                </ListItemAvatar>
-                                <ListItemText
-                                  sx={{ marginLeft: 3 }}
-                                  primary="Photos"
-                                  secondary="Price: $1,200"
-                                />
-                              </ListItem>
-                            </List>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <List
-                              sx={{
-                                width: "100%",
-                                bgcolor: "background.paper",
-                              }}
-                            >
-                              <ListItem>
-                                <ListItemAvatar>
-                                  <img
-                                    width={100}
-                                    height={100}
-                                    src="https://chillchilljapan.com/wp-content/uploads/2019/07/shutterstock_1135797380.jpg"
-                                    alt=""
-                                  />
-                                </ListItemAvatar>
-                                <ListItemText
-                                  sx={{ marginLeft: 3 }}
-                                  primary="Photos"
-                                  secondary="Price: $1,200"
-                                />
-                              </ListItem>
-                            </List>
-                          </Grid>
+                                </ListItem>
+                              </List>
+                            </Grid>
+                          ))}
                         </Grid>
                       </CardContent>
                     </Card>
