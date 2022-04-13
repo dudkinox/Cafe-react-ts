@@ -67,6 +67,7 @@ export default function MenuFood() {
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     console.log(name);
     console.log(photo);
     console.log(price);
@@ -96,15 +97,10 @@ export default function MenuFood() {
           <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={4}>
-                <TextField
-                  required
-                  fullWidth
-                  error={photo === "" ? true : false}
-                  onChange={imageChange as any}
-                  placeholder="Name food"
-                  value={photo}
-                  type="file"
-                />
+                <Button variant="contained" component="label">
+                  {photo ? photo.name : "Upload Image"}
+                  <input type="file" hidden onChange={imageChange as any} />
+                </Button>
               </Grid>
               <Grid item xs={4}>
                 <TextField
