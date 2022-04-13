@@ -131,11 +131,13 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 interface EnhancedTableToolbarProps {
   numSelected: number;
   title: string;
+  handleDelete: (name: string) => void;
 }
 
 const EnhancedTableToolbar = ({
   numSelected,
   title,
+  handleDelete,
 }: EnhancedTableToolbarProps) => {
   return (
     <Toolbar
@@ -188,9 +190,15 @@ interface TableProps {
   title: string;
   headCells: readonly HeadCell[];
   rows: Data[];
+  handleDelete: (name: string) => void;
 }
 
-export default function EnhancedTable({ title, headCells, rows }: TableProps) {
+export default function EnhancedTable({
+  title,
+  headCells,
+  rows,
+  handleDelete,
+}: TableProps) {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("food");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -254,7 +262,11 @@ export default function EnhancedTable({ title, headCells, rows }: TableProps) {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} title={title} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          title={title}
+          handleDelete={handleDelete}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}

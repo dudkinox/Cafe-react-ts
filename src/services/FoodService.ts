@@ -18,9 +18,14 @@ const addFoodByID = (id: string | null, food: listFood, photo: File) => {
   });
 };
 
+const deleteFoodByID = (id: string | null, name: string) => {
+  return httpClient.delete(`/food/${id}/${name}`).then((res) => res.data);
+};
+
 const FoodService = {
   getFoodByID,
   addFoodByID,
+  deleteFoodByID,
 };
 
 export default FoodService;

@@ -35,19 +35,15 @@ export default function MenuFood() {
     };
   }
 
-  useEffect(() => {
-    if (refresh) {
-      setIsLoading(true);
-      FoodService.getFoodByID(id).then((res) => {
-        const data = res.list.map((item) =>
-          createData(item.name, item.image, item.price)
-        );
-        setRows(data);
-        setRefresh(false);
+  const handleDelete = (name: string) => {
+    setIsLoading(true);
+    FoodService.deleteFoodByID(id, name).then((res) => {
+      if (res.data) {
         setIsLoading(false);
-      });
-    }
-  }, [id, refresh]);
+        setRefresh(true);
+      }
+    });
+  };
 
   const headCells: readonly HeadCell[] = [
     {
@@ -103,6 +99,20 @@ export default function MenuFood() {
     navigate("/store");
   };
 
+  useEffect(() => {
+    if (refresh) {
+      setIsLoading(true);
+      FoodService.getFoodByID(id).then((res) => {
+        const data = res.list.map((item) =>
+          createData(item.name, item.image, item.price)
+        );
+        setRows(data);
+        setRefresh(false);
+        setIsLoading(false);
+      });
+    }
+  }, [id, refresh]);
+
   return (
     <>
       {isLoading ? <Loading /> : <></>}
@@ -121,6 +131,7 @@ export default function MenuFood() {
               title="Manage menu food"
               rows={rows}
               headCells={headCells}
+              handleDelete={handleDelete}
             />
             <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
               <Grid container spacing={2}>
