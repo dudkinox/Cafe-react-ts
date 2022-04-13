@@ -191,6 +191,7 @@ interface TableProps {
   headCells: readonly HeadCell[];
   rows: Data[];
   handleDelete: (name: string) => void;
+  keepListDelete: (name: string, check: boolean) => void;
 }
 
 export default function EnhancedTable({
@@ -198,6 +199,7 @@ export default function EnhancedTable({
   headCells,
   rows,
   handleDelete,
+  keepListDelete,
 }: TableProps) {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("food");
@@ -223,7 +225,11 @@ export default function EnhancedTable({
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (
+    event: React.MouseEvent<unknown>,
+    name: string,
+    isItemSelected: boolean
+  ) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
 
@@ -241,6 +247,7 @@ export default function EnhancedTable({
     }
 
     setSelected(newSelected);
+    keepListDelete(name, !isItemSelected);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -293,7 +300,9 @@ export default function EnhancedTable({
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.food)}
+                      onClick={(event) =>
+                        handleClick(event, row.food, isItemSelected)
+                      }
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}

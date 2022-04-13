@@ -26,6 +26,7 @@ export default function MenuFood() {
   const id = localStorage.getItem("token");
   const [refresh, setRefresh] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [listDelete, setListDelete] = useState<string[]>([]);
 
   function createData(food: string, photo: string, price: string): Data {
     return {
@@ -34,6 +35,20 @@ export default function MenuFood() {
       price,
     };
   }
+
+  const keepListDelete = (name: string, check: boolean) => {
+    if (check) {
+      listDelete.push(name);
+      setListDelete(listDelete);
+    } else {
+      const index = listDelete.indexOf(name);
+      if (index > -1) {
+        listDelete.splice(index, 1);
+        setListDelete(listDelete);
+      }
+    }
+    console.log(listDelete);
+  };
 
   const handleDelete = (name: string) => {
     setIsLoading(true);
@@ -132,6 +147,7 @@ export default function MenuFood() {
               rows={rows}
               headCells={headCells}
               handleDelete={handleDelete}
+              keepListDelete={keepListDelete}
             />
             <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
               <Grid container spacing={2}>
