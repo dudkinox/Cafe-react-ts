@@ -10,7 +10,7 @@ const addFoodByID = (id: string | null, food: listFood, photo: File) => {
   formData.append("img", photo);
   formData.append("name", food.name);
   formData.append("price", food.price);
-  return httpClient.post<FoodModel>(`/food/${id}`, formData, {
+  return httpClient.post(`/food/${id}`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
       "Access-Control-Allow-Origin": "*",

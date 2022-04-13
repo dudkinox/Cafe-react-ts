@@ -14,6 +14,7 @@ import EnhancedTable from "../components/Table";
 import { Data, HeadCell } from "../models/TableModel";
 import FoodService from "../services/FoodService";
 import { Themes } from "../themes/color";
+import Loading from "../components/loading";
 
 export default function MenuFood() {
   const theme = createTheme();
@@ -23,6 +24,8 @@ export default function MenuFood() {
   const [price, setPrice] = useState(0);
   const [rows, setRows] = useState<Data[]>([]);
   const id = localStorage.getItem("token");
+  const [refresh, setRefresh] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   function createData(food: string, photo: string, price: string): Data {
     return {
@@ -33,13 +36,18 @@ export default function MenuFood() {
   }
 
   useEffect(() => {
-    FoodService.getFoodByID(id).then((res) => {
-      const data = res.list.map((item) =>
-        createData(item.name, item.image, item.price)
-      );
-      setRows(data);
-    });
-  }, [id]);
+    if (refresh) {
+      setIsLoading(true);
+      FoodService.getFoodByID(id).then((res) => {
+        const data = res.list.map((item) =>
+          createData(item.name, item.image, item.price)
+        );
+        setRows(data);
+        setRefresh(false);
+        setIsLoading(false);
+      });
+    }
+  }, [id, refresh]);
 
   const headCells: readonly HeadCell[] = [
     {
@@ -75,12 +83,19 @@ export default function MenuFood() {
       image: "",
       price: price.toString(),
     };
+    setIsLoading(true);
     FoodService.addFoodByID(id, food, photo)
       .then((res) => {
-        console.log(res);
+        if (res.data === "success") {
+          setRefresh(true);
+          setIsLoading(false);
+        }
       })
       .catch((err) => {
-        console.log(err);
+        if (err.data === "success") {
+          setRefresh(true);
+          setIsLoading(false);
+        }
       });
   };
 
@@ -89,82 +104,85 @@ export default function MenuFood() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="md">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <EnhancedTable
-            title="Manage menu food"
-            rows={rows}
-            headCells={headCells}
-          />
-          <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Button variant="contained" component="label">
-                  {photo ? photo.name : "Upload Image"}
-                  <input type="file" hidden onChange={imageChange as any} />
-                </Button>
+    <>
+      {isLoading ? <Loading /> : <></>}
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="md">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <EnhancedTable
+              title="Manage menu food"
+              rows={rows}
+              headCells={headCells}
+            />
+            <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Button variant="contained" component="label">
+                    {photo ? photo.name : "Upload Image"}
+                    <input type="file" hidden onChange={imageChange as any} />
+                  </Button>
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    required
+                    fullWidth
+                    error={name === "" ? true : false}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Name food"
+                    value={name}
+                    type="text"
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    required
+                    fullWidth
+                    error={price <= 0 ? true : false}
+                    onChange={(e) => setPrice(Number(e.target.value))}
+                    placeholder="Price food (THB)"
+                    value={price}
+                    type="number"
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  required
-                  fullWidth
-                  error={name === "" ? true : false}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Name food"
-                  value={name}
-                  type="text"
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  required
-                  fullWidth
-                  error={price <= 0 ? true : false}
-                  onChange={(e) => setPrice(Number(e.target.value))}
-                  placeholder="Price food (THB)"
-                  value={price}
-                  type="number"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              color="success"
-            >
-              เพิ่มเมนูอาหาร
-            </Button>
-            <Button
-              type="button"
-              fullWidth
-              variant="contained"
-              onClick={goBack}
-              sx={{
-                mt: 3,
-                mb: 2,
-                color: Themes.secondary,
-                backgroundColor: Themes.primary,
-                "&:hover": {
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                color="success"
+              >
+                เพิ่มเมนูอาหาร
+              </Button>
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                onClick={goBack}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  color: Themes.secondary,
                   backgroundColor: Themes.primary,
-                },
-              }}
-            >
-              ยกเลิก
-            </Button>
+                  "&:hover": {
+                    backgroundColor: Themes.primary,
+                  },
+                }}
+              >
+                ยกเลิก
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+        </Container>
+      </ThemeProvider>
+    </>
   );
 }
