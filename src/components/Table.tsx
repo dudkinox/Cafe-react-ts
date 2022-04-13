@@ -190,7 +190,7 @@ interface TableProps {
 
 export default function EnhancedTable({ title, headCells, rows }: TableProps) {
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof Data>("no");
+  const [orderBy, setOrderBy] = React.useState<keyof Data>("food");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -206,7 +206,7 @@ export default function EnhancedTable({ title, headCells, rows }: TableProps) {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.no);
+      const newSelected = rows.map((n) => n.food);
       setSelected(newSelected);
       return;
     }
@@ -273,17 +273,17 @@ export default function EnhancedTable({ title, headCells, rows }: TableProps) {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.no);
+                  const isItemSelected = isSelected(row.food);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.no)}
+                      onClick={(event) => handleClick(event, row.food)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.no}
+                      key={row.food}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -301,10 +301,9 @@ export default function EnhancedTable({ title, headCells, rows }: TableProps) {
                         scope="row"
                         padding="none"
                       >
-                        {row.no}
+                        {row.food}
                       </TableCell>
                       <TableCell align="right">{row.photo}</TableCell>
-                      <TableCell align="right">{row.food}</TableCell>
                     </TableRow>
                   );
                 })}

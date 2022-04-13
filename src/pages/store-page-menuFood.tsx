@@ -19,53 +19,35 @@ export default function MenuFood() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
 
-  function createData(no: string, photo: string, food: string): Data {
+  function createData(food: string, photo: string): Data {
     return {
-      no: no,
-      photo,
       food,
+      photo,
     };
   }
 
   const rows = [
-    createData("1", "image", "ราเมน"),
-    createData("2", "image", "บะหมี่"),
-    createData("3", "image", "คะน้าหมูกรอบ"),
-    createData("4", "image", "ราเมน"),
-    createData("5", "image", "บะหมี่"),
-    createData("6", "image", "คะน้าหมูกรอบ"),
-    createData("7", "image", "ราเมน"),
-    createData("8", "image", "บะหมี่"),
-    createData("9", "image", "คะน้าหมูกรอบ"),
-    createData("10", "image", "ราเมน"),
-    createData("11", "image", "บะหมี่"),
-    createData("12", "image", "คะน้าหมูกรอบ"),
-    createData("13", "image", "ราเมน"),
-    createData("14", "image", "บะหมี่"),
-    createData("15", "image", "คะน้าหมูกรอบ"),
-    createData("16", "image", "ราเมน"),
-    createData("17", "image", "บะหมี่"),
-    createData("18", "image", "คะน้าหมูกรอบ"),
+    createData("ราเมน", "image"),
+    createData("บะหมี่", "image"),
+    createData("คะน้าหมูกรอบ", "image"),
+    createData("ซูชิ", "image"),
+    createData("บะหมี่หยก", "image"),
+    createData("กะเพรา", "image"),
+    createData("ข้าวเปล่า", "image"),
   ];
 
   const headCells: readonly HeadCell[] = [
     {
-      id: "no",
-      numeric: false,
-      disablePadding: true,
-      label: "Select",
+      id: "food",
+      numeric: true,
+      disablePadding: false,
+      label: "Food",
     },
     {
       id: "photo",
       numeric: true,
       disablePadding: false,
       label: "Photo",
-    },
-    {
-      id: "food",
-      numeric: true,
-      disablePadding: false,
-      label: "Food",
     },
   ];
 
