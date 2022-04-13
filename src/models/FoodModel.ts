@@ -6,5 +6,5 @@ export interface FoodModel {
 export interface listFood {
   name: string;
   image: string;
-  price: number;
+  price: string;
 }

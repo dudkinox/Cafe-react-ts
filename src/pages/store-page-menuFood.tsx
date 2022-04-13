@@ -24,7 +24,7 @@ export default function MenuFood() {
   const [rows, setRows] = useState<Data[]>([]);
   const id = localStorage.getItem("token");
 
-  function createData(food: string, photo: string, price: number): Data {
+  function createData(food: string, photo: string, price: string): Data {
     return {
       food,
       photo,
@@ -70,9 +70,18 @@ export default function MenuFood() {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(name);
-    console.log(photo);
-    console.log(price);
+    const food = {
+      name: name,
+      image: "",
+      price: price.toString(),
+    };
+    FoodService.addFoodByID(id, food, photo)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const goBack = () => {
