@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Grid,
-  IconButton,
   Link,
   Toolbar,
   Typography,
@@ -185,18 +184,7 @@ export default function Header({
               justifyContent="flex-end"
               alignItems="center"
             >
-              <Grid item xs={2}>
-                <IconButton size="large" edge="start" aria-label="menu" />
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  <img
-                    src="../assets/image/logo.png"
-                    width="120"
-                    height="100"
-                    alt=""
-                  />
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={12} sx={{ margin: 3, textAlign: "center" }}>
                 <Button
                   sx={{ color: "#000", fontSize: "20px" }}
                   onClick={goToHomePage}
