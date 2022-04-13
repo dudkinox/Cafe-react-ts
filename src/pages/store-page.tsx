@@ -55,7 +55,7 @@ export default function StorePage() {
   };
 
   const goAddMenuFood = () => {
-    navigate("/store/addMenuFood/:id");
+    navigate("/store/addMenuFood");
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
