@@ -18,6 +18,7 @@ import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import { Data, HeadCell } from "../models/TableModel";
+import { Themes } from "../themes/color";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -139,6 +140,7 @@ const EnhancedTableToolbar = ({
   return (
     <Toolbar
       sx={{
+        backgroundColor: Themes.primary,
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
@@ -161,7 +163,7 @@ const EnhancedTableToolbar = ({
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: "1 1 100%" }}
+          sx={{ flex: "1 1 100%", color: Themes.white }}
           variant="h6"
           id="tableTitle"
           component="div"
