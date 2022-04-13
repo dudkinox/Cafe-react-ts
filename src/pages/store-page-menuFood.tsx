@@ -50,14 +50,22 @@ export default function MenuFood() {
     console.log(listDelete);
   };
 
-  const handleDelete = (name: string) => {
+  const handleDelete = async () => {
+    async function deleteLoop() {
+      listDelete.map((name: string) =>
+        FoodService.deleteFoodByID(id, name).then((res) => {
+          console.log(res);
+
+          if (res === "success") {
+            setRefresh(true);
+            setIsLoading(false);
+          }
+        })
+      );
+    }
+
     setIsLoading(true);
-    FoodService.deleteFoodByID(id, name).then((res) => {
-      if (res.data) {
-        setIsLoading(false);
-        setRefresh(true);
-      }
-    });
+    await deleteLoop();
   };
 
   const headCells: readonly HeadCell[] = [
