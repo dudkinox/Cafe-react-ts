@@ -54,6 +54,10 @@ export default function StorePage() {
     }
   };
 
+  const goAddMenuFood = () => {
+    navigate("/store/addMenuFood:id");
+  };
+
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
@@ -217,6 +221,16 @@ export default function StorePage() {
                 onClick={goAddView}
               >
                 เพิ่มรูปบรรยากาศ
+              </Button>
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                color="secondary"
+                onClick={goAddMenuFood}
+              >
+                เพิ่มรายการอาหาร
               </Button>
               <Button
                 type="button"

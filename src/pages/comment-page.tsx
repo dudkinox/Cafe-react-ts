@@ -13,6 +13,10 @@ import {
   Link,
   TextField,
   Button,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  List,
 } from "@mui/material";
 import SimpleImageSlider from "react-simple-image-slider";
 import { useEffect, useState } from "react";
@@ -174,6 +178,56 @@ export default function CommentPage() {
                             <Typography variant="body2" component="h1">
                               <h1>คะแนนรีวิวรวม : {listStore?.total_review}</h1>
                             </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container spacing={2}>
+                          <Grid item xs={6}>
+                            <List
+                              sx={{
+                                width: "100%",
+                                bgcolor: "background.paper",
+                              }}
+                            >
+                              <ListItem>
+                                <ListItemAvatar>
+                                  <img
+                                    width={100}
+                                    height={100}
+                                    src="https://top10siam.com/wp-content/uploads/2018/12/TOP-22NOV18-20.01.jpg"
+                                    alt=""
+                                  />
+                                </ListItemAvatar>
+                                <ListItemText
+                                  sx={{ marginLeft: 3 }}
+                                  primary="Photos"
+                                  secondary="Price: $1,200"
+                                />
+                              </ListItem>
+                            </List>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <List
+                              sx={{
+                                width: "100%",
+                                bgcolor: "background.paper",
+                              }}
+                            >
+                              <ListItem>
+                                <ListItemAvatar>
+                                  <img
+                                    width={100}
+                                    height={100}
+                                    src="https://chillchilljapan.com/wp-content/uploads/2019/07/shutterstock_1135797380.jpg"
+                                    alt=""
+                                  />
+                                </ListItemAvatar>
+                                <ListItemText
+                                  sx={{ marginLeft: 3 }}
+                                  primary="Photos"
+                                  secondary="Price: $1,200"
+                                />
+                              </ListItem>
+                            </List>
                           </Grid>
                         </Grid>
                       </CardContent>

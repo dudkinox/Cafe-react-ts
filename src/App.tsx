@@ -13,6 +13,7 @@ import SignIn from "./pages/sign-in";
 import SignUp from "./pages/sign-up";
 import StorePage from "./pages/store-page";
 import StoreImgView from "./pages/store-page-imgView";
+import MenuFood from "./pages/store-page-menuFood";
 import AccountService from "./services/AccountService";
 import StoreService from "./services/StoreService";
 
@@ -62,6 +63,7 @@ function App() {
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/store" element={<StorePage />}></Route>
             <Route path="/store/addImgView" element={<StoreImgView />}></Route>
+            <Route path="/store/addMenuFood:id" element={<MenuFood />}></Route>
             <Route path="/manage" element={<ManagePage />}></Route>
             <Route path="/review/:id" element={<CommentPage />}></Route>
           </Routes>
