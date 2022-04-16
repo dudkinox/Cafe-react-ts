@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import AccountModel from "../models/AccountModel";
 import AccountService from "../services/AccountService";
 import Alerts from "../components/alert";
@@ -29,9 +29,9 @@ export default function SignIn() {
   const [isAlert, setIsAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const goToSignUp = () => {
+  const goToSignUp = useCallback(() => {
     navigate("/signUp");
-  };
+  }, [navigate]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

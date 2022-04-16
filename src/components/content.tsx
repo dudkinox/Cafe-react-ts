@@ -3,16 +3,20 @@ import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import { Themes } from "../themes/color";
 import CardCoffee from "./card";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import StoreModel from "../models/StoreModel";
 import StoreService from "../services/StoreService";
 
 export default function ConnTent() {
   const [listStore, setListStore] = useState<StoreModel[] | null>();
   const navigate = useNavigate();
-  const goToReview = (id: string) => {
-    navigate(`/review/${id}`);
-  };
+
+  const goToReview = useCallback(
+    (id: string) => {
+      navigate(`/review/${id}`);
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     StoreService.getAllStore().then((res) => {

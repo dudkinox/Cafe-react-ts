@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Loading from "../components/loading";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
@@ -62,9 +62,12 @@ export default function ManagePage() {
   const [storeData, setStoreData] = useState<any>([]);
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  const handleChange = useCallback(
+    (_event: React.SyntheticEvent, newValue: number) => {
+      setValue(newValue);
+    },
+    []
+  );
 
   useEffect(() => {
     console.log("manage-page.tsx");

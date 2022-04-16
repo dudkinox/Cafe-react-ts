@@ -18,6 +18,7 @@ import { ListType } from "../enum/ListTypeRegister";
 import AccountService from "../services/AccountService";
 import Alerts from "../components/alert";
 import Loading from "../components/loading";
+import { useCallback } from "react";
 
 const theme = createTheme();
 
@@ -76,9 +77,9 @@ export default function SignUp() {
     }
   };
 
-  const goToSignIn = () => {
+  const goToSignIn = useCallback(() => {
     navigate("/signIn");
-  };
+  }, [navigate]);
 
   const optionSelect = [
     {

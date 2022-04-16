@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PersonIcon from "@mui/icons-material/Person";
 import { Themes } from "../themes/color";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Loading from "../components/loading";
 import StoreService from "../services/StoreService";
 
@@ -40,23 +40,26 @@ export default function StorePage() {
     },
   };
 
-  const goBack = () => {
+  const goBack = useCallback(() => {
     navigate("/");
-  };
+  }, [navigate]);
 
-  const goAddView = () => {
+  const goAddView = useCallback(() => {
     navigate("/store/addImgView");
-  };
+  }, [navigate]);
 
-  const imageChange = (e: { target: { files: string | any[] } }) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setPreviewImage(e.target.files[0]);
-    }
-  };
+  const imageChange = useCallback(
+    (e: { target: { files: string | any[] } }) => {
+      if (e.target.files && e.target.files.length > 0) {
+        setPreviewImage(e.target.files[0]);
+      }
+    },
+    []
+  );
 
-  const goAddMenuFood = () => {
+  const goAddMenuFood = useCallback(() => {
     navigate("/store/addMenuFood");
-  };
+  }, [navigate]);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

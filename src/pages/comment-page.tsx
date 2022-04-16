@@ -19,7 +19,7 @@ import {
   List,
 } from "@mui/material";
 import SimpleImageSlider from "react-simple-image-slider";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import StoreService from "../services/StoreService";
 import Rating from "@mui/material/Rating";
 import { useParams } from "react-router-dom";
@@ -45,36 +45,42 @@ export default function CommentPage() {
   const [listViewImage, setListViewImage] = useState<StoreImgViewModel>();
   const [listFood, setListFood] = useState<listFood[]>([]);
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    StoreService.uploadImgComment(previewImage, token).then((res) => {
-      StoreService.CommentReview(id, token, comment, res.data, rating).then(
-        () => {
-          window.location.reload();
-        }
-      );
-    });
-  };
+  const onSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      StoreService.uploadImgComment(previewImage, token).then((res) => {
+        StoreService.CommentReview(id, token, comment, res.data, rating).then(
+          () => {
+            window.location.reload();
+          }
+        );
+      });
+    },
+    [comment, id, previewImage, rating, token]
+  );
 
-  const showBox = () => {
+  const showBox = useCallback(() => {
     if (showcomment === false) {
       setShowComment(true);
     } else {
       setShowComment(false);
     }
-  };
+  }, [showcomment]);
 
-  const imageChange = (e: { target: { files: string | any[] } }) => {
-    if (e.target.files && e.target.files.length > 0) {
-      if (e.target.files.length < 6) {
-        setPreviewImage(e.target.files);
-        setShowLimit(false);
-      } else {
-        setPreviewImage([]);
-        setShowLimit(true);
+  const imageChange = useCallback(
+    (e: { target: { files: string | any[] } }) => {
+      if (e.target.files && e.target.files.length > 0) {
+        if (e.target.files.length < 6) {
+          setPreviewImage(e.target.files);
+          setShowLimit(false);
+        } else {
+          setPreviewImage([]);
+          setShowLimit(true);
+        }
       }
-    }
-  };
+    },
+    []
+  );
 
   useEffect(() => {
     StoreService.getStoreId(id).then((res) => {

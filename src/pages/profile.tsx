@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PersonIcon from "@mui/icons-material/Person";
 import { Themes } from "../themes/color";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AccountService from "../services/AccountService";
 import AccountModel from "../models/AccountModel";
 import Loading from "../components/loading";
@@ -35,13 +35,13 @@ export default function Profile() {
   const token = localStorage.getItem("token");
   const [isAlert, setIsAlert] = useState(false);
 
-  const goBack = () => {
+  const goBack = useCallback(() => {
     navigate("/");
-  };
+  }, [navigate]);
 
-  const changePassword = () => {
+  const changePassword = useCallback(() => {
     setIsChangePassword(true);
-  };
+  }, []);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

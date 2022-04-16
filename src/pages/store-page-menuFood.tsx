@@ -8,7 +8,7 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EnhancedTable from "../components/Table";
 import { Data, HeadCell } from "../models/TableModel";
@@ -36,21 +36,24 @@ export default function MenuFood() {
     };
   }
 
-  const keepListDelete = (name: string, check: boolean) => {
-    if (check) {
-      listDelete.push(name);
-      setListDelete(listDelete);
-    } else {
-      const index = listDelete.indexOf(name);
-      if (index > -1) {
-        listDelete.splice(index, 1);
+  const keepListDelete = useCallback(
+    (name: string, check: boolean) => {
+      if (check) {
+        listDelete.push(name);
         setListDelete(listDelete);
+      } else {
+        const index = listDelete.indexOf(name);
+        if (index > -1) {
+          listDelete.splice(index, 1);
+          setListDelete(listDelete);
+        }
       }
-    }
-    console.log(listDelete);
-  };
+      console.log(listDelete);
+    },
+    [listDelete]
+  );
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
     async function deleteLoop() {
       listDelete.map((name: string) =>
         FoodService.deleteFoodByID(id, name).then((res) => {
@@ -64,7 +67,7 @@ export default function MenuFood() {
 
     setIsLoading(true);
     await deleteLoop();
-  };
+  }, [id, listDelete]);
 
   const headCells: readonly HeadCell[] = [
     {
@@ -87,38 +90,44 @@ export default function MenuFood() {
     },
   ];
 
-  const imageChange = (e: { target: { files: string | any[] } }) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setPhoto(e.target.files[0]);
-    }
-  };
+  const imageChange = useCallback(
+    (e: { target: { files: string | any[] } }) => {
+      if (e.target.files && e.target.files.length > 0) {
+        setPhoto(e.target.files[0]);
+      }
+    },
+    []
+  );
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const food = {
-      name: name,
-      image: "",
-      price: price.toString(),
-    };
-    setIsLoading(true);
-    FoodService.addFoodByID(id, food, photo)
-      .then((res) => {
-        if (res.data === "success") {
-          setRefresh(true);
-          setIsLoading(false);
-        }
-      })
-      .catch((err) => {
-        if (err.data === "success") {
-          setRefresh(true);
-          setIsLoading(false);
-        }
-      });
-  };
+  const onSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const food = {
+        name: name,
+        image: "",
+        price: price.toString(),
+      };
+      setIsLoading(true);
+      FoodService.addFoodByID(id, food, photo)
+        .then((res) => {
+          if (res.data === "success") {
+            setRefresh(true);
+            setIsLoading(false);
+          }
+        })
+        .catch((err) => {
+          if (err.data === "success") {
+            setRefresh(true);
+            setIsLoading(false);
+          }
+        });
+    },
+    [id, name, photo, price]
+  );
 
-  const goBack = () => {
+  const goBack = useCallback(() => {
     navigate("/store");
-  };
+  }, [navigate]);
 
   useEffect(() => {
     if (refresh) {

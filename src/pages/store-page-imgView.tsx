@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PersonIcon from "@mui/icons-material/Person";
 import { Themes } from "../themes/color";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Loading from "../components/loading";
 import StoreService from "../services/StoreService";
 
@@ -34,33 +34,38 @@ export default function StoreImgView() {
     },
   };
 
-  const goBack = () => {
+  const goBack = useCallback(() => {
     navigate("/store");
-  };
+  }, [navigate]);
 
-  const imageChange = (e: { target: { files: string | any[] } }) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setPreviewImage(e.target.files[0]);
-    }
-  };
+  const imageChange = useCallback(
+    (e: { target: { files: string | any[] } }) => {
+      if (e.target.files && e.target.files.length > 0) {
+        setPreviewImage(e.target.files[0]);
+      }
+    },
+    []
+  );
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    setIsLoading(true);
-    event.preventDefault();
-    if (previewImage) {
-      StoreService.uploadImageStoreView(previewImage, token).then(
-        async (url): Promise<void> => {
-          setIsLoading(false);
-          window.location.reload();
-        }
-      );
-    } else {
-      setIsLoading(false);
-    }
-  };
+  const onSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      setIsLoading(true);
+      event.preventDefault();
+      if (previewImage) {
+        StoreService.uploadImageStoreView(previewImage, token).then(
+          async (url): Promise<void> => {
+            setIsLoading(false);
+            window.location.reload();
+          }
+        );
+      } else {
+        setIsLoading(false);
+      }
+    },
+    [previewImage, token]
+  );
 
   React.useEffect(() => {
-    console.log("store-page-imgView.tsx");
     setIsLoading(true);
     StoreService.getImgStoreViewId(token).then((res) => {
       if (res.image.length !== 0) {
