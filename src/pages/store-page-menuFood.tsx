@@ -54,8 +54,6 @@ export default function MenuFood() {
     async function deleteLoop() {
       listDelete.map((name: string) =>
         FoodService.deleteFoodByID(id, name).then((res) => {
-          console.log(res);
-
           if (res === "success") {
             setRefresh(true);
             setIsLoading(false);
