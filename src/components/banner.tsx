@@ -1,5 +1,5 @@
 import { Box, Grid, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export default function Banner() {
   const [search, setSearch] = useState("");
@@ -12,10 +12,13 @@ export default function Banner() {
     },
   };
 
-  const searchGoogle = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    window.location.href = "https://www.google.com/search?q=" + search;
-  };
+  const searchGoogle = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      window.location.href = "https://www.google.com/search?q=" + search;
+    },
+    [search]
+  );
 
   return (
     <Box style={styles.paperContainer}>
