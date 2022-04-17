@@ -145,50 +145,7 @@ export default function ManagePage() {
                 <Tab label="จัดการผู้ใช้งาน" {...a11yProps(0)} />
                 <Tab label="จัดการร้าน" {...a11yProps(1)} />
               </Tabs>
-              <TabPanel value={value} index={0}>
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: "100%" }} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>อีเมล์</TableCell>
-                        <TableCell align="right">ชื่อ - สกุล</TableCell>
-                        <TableCell align="right">เบอร์โทร</TableCell>
-                        <TableCell align="right">สถานะ</TableCell>
-                        <TableCell align="right">ตำแหน่ง</TableCell>
-                        <TableCell align="right"></TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {data.map((item: AccountModel) => (
-                        <TableRow
-                          key={item.name}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell component="th" scope="row">
-                            {item.email}
-                          </TableCell>
-                          <TableCell align="right">{item.name}</TableCell>
-                          <TableCell align="right">{item.tel}</TableCell>
-                          <TableCell align="right">
-                            {item.status === true ? "ปกติ" : "ปิดบัญชี"}
-                          </TableCell>
-                          <TableCell align="right">{item.type}</TableCell>
-                          <TableCell align="right">
-                            <DeleteOutlined
-                              sx={{ cursor: "pointer" }}
-                              onClick={() => {
-                                onDeleteAccount(item.id);
-                              }}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </TabPanel>
+              <TabPanel value={value} index={0}></TabPanel>
               <TabPanel value={value} index={1}>
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: "100%" }} aria-label="simple table">
