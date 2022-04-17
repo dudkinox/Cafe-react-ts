@@ -8,9 +8,7 @@ const getLogin = (email: string | null, password: string | null) => {
 };
 
 const getUserAll = () => {
-  return httpClient
-    .get<Array<AccountModel[]>>("/account")
-    .then((res) => res.data);
+  return httpClient.get<AccountModel[]>("/account").then((res) => res.data);
 };
 
 const getFindById = (token: string | null) => {
