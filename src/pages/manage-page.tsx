@@ -102,6 +102,7 @@ export default function ManagePage() {
     setIsLoading(true);
     AccountService.closeAccount(token).then((res: any) => {
       setIsLoading(false);
+      window.location.reload();
     });
   };
 
@@ -109,6 +110,7 @@ export default function ManagePage() {
     setIsLoading(true);
     StoreService.closeStore(token).then((res: any) => {
       setIsLoading(false);
+      window.location.reload();
     });
   };
 
