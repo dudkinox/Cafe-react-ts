@@ -4,8 +4,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Themes } from "../themes/color";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "../components/loading";
 import Tab from "@mui/material/Tab";
@@ -59,9 +57,7 @@ function a11yProps(index: number) {
 }
 
 export default function ManagePage() {
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const token = localStorage.getItem("token");
   const [data, setDataUser] = useState<any>([]);
   const [storeData, setStoreData] = useState<any>([]);
   const [value, setValue] = React.useState(0);
@@ -90,11 +86,16 @@ export default function ManagePage() {
       }
       setDataUser(new_result);
     });
-    StoreService.getStoreAll().then((res: any) => {
-      setStoreData(res);
-      console.log(res);
-      setIsLoading(false);
-    });
+    StoreService.getStoreAll()
+      .then((res: any) => {
+        setStoreData(res);
+        console.log(res);
+        setIsLoading(false);
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   }, []);
 
   const onDeleteAccount = (token: string | null) => {
@@ -173,7 +174,7 @@ export default function ManagePage() {
                           <TableCell align="right">{item.name}</TableCell>
                           <TableCell align="right">{item.tel}</TableCell>
                           <TableCell align="right">
-                            {item.status == true ? "ปกติ" : "ปิดบัญชี"}
+                            {item.status === true ? "ปกติ" : "ปิดบัญชี"}
                           </TableCell>
                           <TableCell align="right">{item.type}</TableCell>
                           <TableCell align="right">
@@ -199,41 +200,47 @@ export default function ManagePage() {
                         <TableCell align="right">ข้อมูลร้าน</TableCell>
                         <TableCell align="right">เวลาทำการ</TableCell>
                         <TableCell align="right">เบอร์โทรติดต่อ</TableCell>
-                        <TableCell align="center">เว็บไซต์</TableCell>
-                        <TableCell align="center">แผนที่</TableCell>
                         <TableCell align="right">สถานะร้าน</TableCell>
                         <TableCell align="right"></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {storeData.map((item: StoreModel) => (
-                        <TableRow
-                          key={item.name}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell component="th" scope="row">
-                            {item.name}
-                          </TableCell>
-                          <TableCell align="right">{item.address}</TableCell>
-                          <TableCell align="right">{item.open}</TableCell>
-                          <TableCell align="right">{item.tel}</TableCell>
-                          <TableCell align="right">{item.website}</TableCell>
-                          <TableCell align="right">{item.latitude}</TableCell>
-                          <TableCell align="right">
-                            {item.status == true ? "เปิด" : "ปิดทำการ"}
-                          </TableCell>
-                          <TableCell align="right">
-                            <DeleteOutlined
-                              sx={{ cursor: "pointer" }}
-                              onClick={() => {
-                                onDeleteStore(item.idstore);
-                              }}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                      {storeData !== undefined ? (
+                        storeData?.map((item: StoreModel) => (
+                          <TableRow
+                            key={item.name ?? "-"}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {item.name ?? "-"}
+                            </TableCell>
+                            <TableCell align="right">
+                              {item.address ?? "-"}
+                            </TableCell>
+                            <TableCell align="right">
+                              {item.open ?? "-"}
+                            </TableCell>
+                            <TableCell align="right">
+                              {item.tel ?? "-"}
+                            </TableCell>
+                            <TableCell align="right">
+                              {item.status === true ? "เปิด" : "ปิดทำการ"}
+                            </TableCell>
+                            <TableCell align="right">
+                              <DeleteOutlined
+                                sx={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  onDeleteStore(item.idstore ?? "-");
+                                }}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      ) : (
+                        <></>
+                      )}
                     </TableBody>
                   </Table>
                 </TableContainer>
