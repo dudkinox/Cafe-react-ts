@@ -191,7 +191,9 @@ export default function CommentPage() {
                               </a>
                             </Typography>
                             <Typography variant="body2" component="h1">
-                              <h1>คะแนนรีวิวรวม : {listStore?.total_review}</h1>
+                              <h1>
+                                คะแนนรีวิวรวม : {Math.random().toLocaleString()}
+                              </h1>
                             </Typography>
                           </Grid>
                         </Grid>
