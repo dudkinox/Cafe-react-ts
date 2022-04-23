@@ -1,0 +1,16 @@
+[debug] [2022-04-23T10:20:32.012Z] ----------------------------------------------------------------------
+[debug] [2022-04-23T10:20:32.013Z] Command:       /Users/sorener/.nvm/versions/node/v17.7.1/bin/node /Users/sorener/.nvm/versions/node/v17.7.1/bin/firebase login
+[debug] [2022-04-23T10:20:32.013Z] CLI Version:   10.6.0
+[debug] [2022-04-23T10:20:32.013Z] Platform:      darwin
+[debug] [2022-04-23T10:20:32.013Z] Node Version:  v17.7.1
+[debug] [2022-04-23T10:20:32.014Z] Time:          Sat Apr 23 2022 17:20:32 GMT+0700 (Indochina Time)
+[debug] [2022-04-23T10:20:32.014Z] ----------------------------------------------------------------------
+[debug] 
+[info] i  Firebase optionally collects CLI usage and error reporting information to help improve our products. Data is collected in accordance with Google's privacy policy (https://policies.google.com/privacy) and is not used to identify you.
+ 
+[info] i  To change your data collection preference at any time, run `firebase logout` and log in again. 
+[info] 
+[info] Visit this URL on this device to log in:
+[info] https://accounts.google.com/o/oauth2/auth?client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com&scope=email%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloudplatformprojects.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&state=3165636&redirect_uri=http%3A%2F%2Flocalhost%3A9005
+[info] 
+[info] Waiting for authentication...

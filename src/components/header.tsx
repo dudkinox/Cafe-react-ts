@@ -114,7 +114,7 @@ export default function Header({
                   ค้นหาร้านอาหารที่ชอบ เน้นรีวิวจริง อร่อยจริง |
                 </Typography>
               </Grid>
-              <Grid item xs={1.5}>
+              <Grid item xs={1.5} md={2}>
                 <Typography variant="inherit" component="span">
                   ต้อนรับคุณ : {name}
                 </Typography>

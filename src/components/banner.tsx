@@ -41,6 +41,7 @@ export default function Banner() {
               หาได้ที่นี่เรามีคำตอบ
             </Typography>
             <TextField
+              id="search"
               type="search"
               placeholder="ค้นหาร้านอาหารที่ชอบ"
               value={search}

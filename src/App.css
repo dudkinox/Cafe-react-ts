@@ -3,16 +3,82 @@ body {
 }
 .flex {
   flex: 1 1 auto;
-}    
+}
 
 .scrollable {
-   overflow: auto;
-   box-sizing: border-box;
-   position: absolute;
-   width: 100%;
-   height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 .css-1azl6jz-MuiTableCell-root {
   text-align: left !important;
+}
+
+@media only screen and (max-width: 400px) {
+  .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-3.css-1equabv-MuiGrid-root {
+    display: none !important;
+  }
+  span.MuiTypography-root.MuiTypography-inherit.css-37jdci-MuiTypography-root {
+    width: 1300px !important;
+    display: block;
+    position: relative;
+    right: 210px;
+  }
+  p.MuiTypography-root.MuiTypography-body1.css-4peds9-MuiTypography-root {
+    width: 235px;
+    position: relative;
+    right: 97.1px;
+  }
+  p.MuiTypography-root.MuiTypography-body1.css-4peds9-MuiTypography-root {
+    display: none;
+  }
+  p.MuiTypography-root.MuiTypography-body1.css-1l0n8b-MuiTypography-root {
+    font-size: 27px;
+  }
+  svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1n246pu-MuiSvgIcon-root {
+    font-size: 33.2px;
+  }
+  footer.footer {
+    display: none;
+  }
+  h2.MuiTypography-root.MuiTypography-h2.css-1sra7t5-MuiTypography-root {
+    font-size: 30px;
+    width: 301px;
+  }
+  p.MuiTypography-root.MuiTypography-body1.css-1l0n8b-MuiTypography-root {
+    text-align: center;
+  }
+  p.MuiTypography-root.MuiTypography-body1.css-vmzbkj-MuiTypography-root {
+    text-align: center;
+  }
+  .MuiFormControl-root.MuiTextField-root.css-15jv3ne-MuiFormControl-root-MuiTextField-root {
+    margin-top: 31.1px;
+  }
+  input#search {
+    width: 300px;
+  }
+  .css-2bmocg-MuiGrid-root {
+    width: 1000px !important;
+    left: 0 !important;
+    box-sizing: none !important;
+    display: none !important;
+    display: none !important;
+    display: none !important;
+    display: block !important;
+    -webkit-box-flex-wrap: wrap !important;
+    -ms-flex-wrap: wrap !important;
+    -ms-flex-direction: row !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin: 0 !important;
+  }
+  img.MuiBox-root.css-qup4ah {
+    width: 330.1px;
+  }
+  .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.css-1ps6pg7-MuiPaper-root {
+    display: none;
+  }
 }
