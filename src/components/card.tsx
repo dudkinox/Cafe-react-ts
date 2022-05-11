@@ -44,7 +44,6 @@ export default function CardCoffee({
           </Avatar>
         }
         title={nameStore}
-        subheader={`ID Store : ${idStore}`}
       />
       <CardMedia
         component="img"
