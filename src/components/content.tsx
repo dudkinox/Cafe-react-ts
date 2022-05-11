@@ -3,12 +3,14 @@ import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import { Themes } from "../themes/color";
 import CardCoffee from "./card";
 import { useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import StoreModel from "../models/StoreModel";
-import StoreService from "../services/StoreService";
 
-export default function ConnTent() {
-  const [listStore, setListStore] = useState<StoreModel[] | null>();
+interface ConnTentProps {
+  listStore: StoreModel[] | null | undefined;
+}
+
+export default function ConnTent({ listStore }: ConnTentProps) {
   const navigate = useNavigate();
 
   const goToReview = useCallback(
@@ -17,12 +19,6 @@ export default function ConnTent() {
     },
     [navigate]
   );
-
-  useEffect(() => {
-    StoreService.getAllStore().then((res) => {
-      setListStore(res);
-    });
-  }, []);
 
   return (
     <Container maxWidth="lg">

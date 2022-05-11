@@ -1,7 +1,20 @@
-import { Box, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
+import StoreModel from "../models/StoreModel";
 
-export default function Banner() {
+interface BannerProps {
+  setListStore: React.Dispatch<
+    React.SetStateAction<StoreModel[] | null | undefined>
+  >;
+  listStore: StoreModel[] | null | undefined;
+  fetchData(): void;
+}
+
+export default function Banner({
+  setListStore,
+  listStore,
+  fetchData,
+}: BannerProps) {
   const [search, setSearch] = useState("");
   const styles = {
     paperContainer: {
@@ -15,9 +28,13 @@ export default function Banner() {
   const searchGoogle = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      window.location.href = "https://www.google.com/search?q=" + search;
+      const searchName = listStore?.filter((store: StoreModel) =>
+        store.name.includes(search)
+      );
+
+      setListStore(searchName);
     },
-    [search]
+    [listStore, search, setListStore]
   );
 
   return (
@@ -52,6 +69,22 @@ export default function Banner() {
                 width: "100%",
               }}
             />
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button
+                type="button"
+                onClick={fetchData}
+                sx={{
+                  backgroundColor: "#fff",
+                  borderRadius: 3,
+                  padding: "5px 10px",
+                  border: "1px solid #fff",
+                  cursor: "pointer",
+                  marginTop: 3,
+                }}
+              >
+                ล้าง
+              </Button>
+            </Box>
           </form>
         </Grid>
       </Grid>
